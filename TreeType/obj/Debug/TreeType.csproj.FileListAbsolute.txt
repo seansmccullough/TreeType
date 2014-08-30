@@ -22,3 +22,27 @@ C:\Users\Sean\documents\visual studio 2013\Projects\TreeType\TreeType\obj\Debug\
 C:\Users\Sean\documents\visual studio 2013\Projects\TreeType\TreeType\obj\Debug\TreeType.TrustInfo.xml
 C:\Users\Sean\documents\visual studio 2013\Projects\TreeType\TreeType\obj\Debug\TreeType.exe.manifest
 C:\Users\Sean\documents\visual studio 2013\Projects\TreeType\TreeType\obj\Debug\TreeType.application
+C:\Users\Sean\Documents\TreeType\TreeType\bin\Debug\TreeType.exe.config
+C:\Users\Sean\Documents\TreeType\TreeType\bin\Debug\TreeType.exe.manifest
+C:\Users\Sean\Documents\TreeType\TreeType\bin\Debug\TreeType.application
+C:\Users\Sean\Documents\TreeType\TreeType\bin\Debug\TreeType.exe
+C:\Users\Sean\Documents\TreeType\TreeType\bin\Debug\TreeType.pdb
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.csprojResolveAssemblyReference.cache
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\App.g.cs
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType_Content.g.cs
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType_MarkupCompile.cache
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.g.resources
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.Properties.Resources.resources
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.csproj.GenerateResource.Cache
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.TrustInfo.xml
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.exe.manifest
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.application
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.exe
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\TreeType.pdb
+C:\Users\Sean\Documents\TreeType\TreeType\bin\Debug\keyboards\mainTreeKeyboard.txt
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\views\MainWindow.baml
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\views\SettingsWindow.baml
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\views\ToggleWindow.baml
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\views\MainWindow.g.cs
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\views\SettingsWindow.g.cs
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\views\ToggleWindow.g.cs

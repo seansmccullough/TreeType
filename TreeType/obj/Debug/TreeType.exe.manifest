@@ -60,11 +60,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>5LNIXAtKzyIFcZTY0MefUFcPmGs=</dsig:DigestValue>
+        <dsig:DigestValue>bfEb4p6du0Yr9jJ+uRrJa/t2kU0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="mainTreeKeyboard.txt" size="3660">
+  <file name="keyboards\mainTreeKeyboard.txt" size="3660">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />

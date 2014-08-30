@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("maintreekeyboard.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("keyboards/maintreekeyboard.txt")]
 
 

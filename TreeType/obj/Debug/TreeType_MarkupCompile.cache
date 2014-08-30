@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Sean\documents\visual studio 2013\Projects\TreeType\TreeType\obj\Debug\
+C:\Users\Sean\Documents\TreeType\TreeType\obj\Debug\
 TreeType
 none
 false
 DEBUG;TRACE
-C:\Users\Sean\documents\visual studio 2013\Projects\TreeType\TreeType\App.xaml
-3-595796142
-11774307423
-141266563301
+C:\Users\Sean\Documents\TreeType\TreeType\App.xaml
+3173277352
+1-1333644446
+141673601747
 12656827921
-MainWindow.xaml;SettingsWindow.xaml;ToggleWindow.xaml;
+views\MainWindow.xaml;views\SettingsWindow.xaml;views\ToggleWindow.xaml;
 
 False
 

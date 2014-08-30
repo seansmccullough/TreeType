@@ -79,7 +79,7 @@ namespace TreeType
             toggleWindow.Show();
             try
             {
-                keyboard.loadFromFile("mainTreeKeyboard.txt");
+                keyboard.loadFromFile("keyboards/mainTreeKeyboard.txt");
             }
             catch (Exception e)
             {

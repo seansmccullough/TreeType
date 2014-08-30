@@ -94,20 +94,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Constant.cs" />
-    <Compile Include="NativeMethods.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="SettingsWindow.xaml.cs">
+    <Compile Include="models\Constant.cs" />
+    <Compile Include="models\NativeMethods.cs" />
+    <Compile Include="models\Settings.cs" />
+    <Compile Include="views\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToggleWindow.xaml.cs">
+    <Compile Include="views\ToggleWindow.xaml.cs">
       <DependentUpon>ToggleWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tree.cs" />
-    <Compile Include="QuadNode.cs" />
-    <Compile Include="VirtualKeyboard.cs" />
-    <Compile Include="VisualNode.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="models\Tree.cs" />
+    <Compile Include="models\QuadNode.cs" />
+    <Compile Include="models\VirtualKeyboard.cs" />
+    <Compile Include="models\VisualNode.cs" />
+    <Page Include="views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -115,15 +115,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SettingsWindow.xaml">
+    <Page Include="views\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToggleWindow.xaml">
+    <Page Include="views\ToggleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,12 +158,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="mainTreeKeyboard.txt">
+    <Content Include="keyboards\mainTreeKeyboard.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="calcKeyboard.txt" />
+    <Resource Include="keyboards\calcKeyboard.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

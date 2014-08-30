@@ -4,14 +4,14 @@
   <description asmv2:publisher="TreeType" asmv2:product="TreeType" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="TreeType.exe.manifest" size="5877">
+    <dependentAssembly dependencyType="install" codebase="TreeType.exe.manifest" size="5887">
       <assemblyIdentity name="TreeType.exe" version="0.9.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>b8mCSPjz+S3upcXyL8xteTe515g=</dsig:DigestValue>
+        <dsig:DigestValue>lCAOqJIa1ll4PR3MaBcVU82uTAw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
