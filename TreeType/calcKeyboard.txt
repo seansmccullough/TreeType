@@ -1,0 +1,35 @@
+log log log null e csc null letter 1 1 0 0 noShift
+e e e null pi sin log letter 1 1 0 0 noShift
+pi pi pi null leftParen seven e 1 1 0 0 noShift
+leftParen ( ( null rightParen eight pi 1 1 0 0 noShift
+rightParen ) ) null space nine leftParen 1 1 0 0 noShift
+space space space null null divide rightParen 1 1 0 0 noShift
+csc csc csc log sin sec null 1 1 0 0 noShift
+sin sin sin e seven cos scs 1 1 0 0 noShift
+seven 7 7 pi eight four sin 1 1 0 0 noShift
+eight 8 8 leftParen nine five seven 1 1 0 0 noShift
+nine 9 9 rightParen divide six eight 1 1 0 0 noShift
+divide / / space null mult nine 1 1 0 0 noShift
+sec sec sec csc cos cot null 1 1 0 0 noShift
+cos cos cos sin four tan sec 1 1 0 0 noShift
+four 4 4 seven five one cos 1 1 0 0 noShift
+five 5 5 eight six two four 1 1 0 0 noShift
+six 6 6 nine mult three five 1 1 0 0 noShift
+cot cot cot sec tan fact null 1 1 0 0 noShift
+tan tan tan cos one power cot 1 1 0 0 noShift
+one 1 1 four two zero tan 1 1 0 0 noShift
+two 2 2 five three decimal one 1 1 0 0 noShift
+three 3 3 six minus equals two 1 1 0 0 noShift
+minus - - mult null plus three 1 1 0 0 noShift
+fact ! ! cot power integral bull 1 1 0 0 noShift
+power ^ ^ tan zero ten fact 1 1 0 0 noShift
+zero 0 0 one decimal sqrt power 1 1 0 0 noShift
+decimal . . two equals x zero 1 1 0 0 noShift
+equals = = three plus y decimal 1 1 0 0 noShift
+plus + + minus null z equals 1 1 0 0 noShift
+integral integral integral fact ten null null 1 1 0 0 noShift
+ten *10^ *10^ power sqrt null integral 1 1 0 0 noShift
+sqrt sqrt sqrt zero x null ten 1 1 0 0 noShift
+x x x decimal y null sqrt 1 1 0 0 noShift
+y y y equals z null x 1 1 0 0 noShift
+z z z plus null null y 1 1 0 0 noShift
