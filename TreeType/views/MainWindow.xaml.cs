@@ -76,7 +76,7 @@ namespace TreeType
             {
                 this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
             }
-            trie = new Trie("bullshit placeholder");
+            trie = new Trie("autocomplete/words10k.txt");
             keyboard = new Tree();
             keyboard = new TreeType.Tree();
             toggleWindow = new ToggleWindow();

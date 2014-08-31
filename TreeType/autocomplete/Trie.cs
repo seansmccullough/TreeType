@@ -2,14 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace TreeType.autocomplete
 {
     class Trie
     {
-        public Trie(String filename)
+        public Trie(String textFile)
         {
+            string line;
+            var reader = File.OpenText(textFile);
+ 
+            //create TrieNodes here
+            while ((line = reader.ReadLine()) != null)
+            {
+            }
 
+            reader.Close();
         }
         public String[] top(String arg, int num)
         {

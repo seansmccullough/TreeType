@@ -51,9 +51,9 @@ namespace TreeType
         public void loadFromFile(string textFile)
         {
             string line;
-            StreamReader reader;
+            var reader = File.OpenText(textFile);
             maxDepth = 0;
-            reader = File.OpenText(textFile);
+ 
             autoCompletes = new List<QuadNode>();
             //create QuadNodes here
             while ((line = reader.ReadLine()) != null)
