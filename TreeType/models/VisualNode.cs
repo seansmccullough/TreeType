@@ -49,19 +49,19 @@ namespace TreeType
             //box background color
             switch(quadnode.type)
             {
-                case "letter":
-                    box.Fill = Constant.letterBackgroundColor;
-                    defaultColor = Constant.letterBackgroundColor;
-                    break;
-                case "symbol":
+                //case QuadNode.Type.letter:
+                //    box.Fill = Constant.letterBackgroundColor;
+                //    defaultColor = Constant.letterBackgroundColor;
+                //    break;
+                case QuadNode.Type.symbol:
                     box.Fill = Constant.symbolBackgroundColor;
                     defaultColor = Constant.symbolBackgroundColor;
                     break;
-                case "number":
+                case QuadNode.Type.number:
                     box.Fill = Constant.numberBackgroundColor;
                     defaultColor = Constant.numberBackgroundColor;
                     break;
-                case "special":
+                case QuadNode.Type.special:
                     box.Fill = Constant.specialBackgroundColor;
                     defaultColor = Constant.specialBackgroundColor;
                     break;
@@ -74,7 +74,8 @@ namespace TreeType
             //text
             this.text = new TextBlock();
             text.TextAlignment = TextAlignment.Center;
-            this.text.Text = quadnode.content;
+            if (this.quadnode.type == QuadNode.Type.auto) this.text.Text = "";
+            else this.text.Text = quadnode.content;
             this.text.FontSize = Constant.defaultFontSize;
             this.text.Foreground = Constant.defaultColor;
             Canvas.SetLeft(this.text, x);
@@ -114,6 +115,10 @@ namespace TreeType
             if (shift) text.Text = quadnode.content;
             else text.Text = quadnode.contentShift;
             shift = !shift;
+        }
+        public void replace(String newStr)
+        {
+            text.Text = newStr;
         }
     }
 }

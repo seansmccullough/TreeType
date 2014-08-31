@@ -1,5 +1,9 @@
-﻿space space space E T A O letter 2 1 1 32 noShift
-E e E I H space G letter 1 1 1 69 na
+﻿space space space first second third fourth letter 2 1 1 32 noShift
+first 0 0 E null space null auto 3 1 1 0 noShift
+second 0 0 null T null space auto 3 1 1 0 noShift
+third 0 0 space null A null auto 3 1 1 0 noShift
+fourth 0 0 null space null O auto 3 1 1 0 noShift
+E e E I H first G letter 1 1 1 69 na
 G g G leftCurly E rightCurly verticalLine letter 1 1 1 71 na
 leftCurly { { null null G null symbol 1 1 1 219 shift
 rightCurly } } G null null null symbol 1 1 1 221 shift
@@ -15,7 +19,7 @@ H h H V K X E letter 1 1 1 72 na
 V v V null null H null letter 1 1 1 86 na
 K k K null null null H letter 1 1 1 75 na
 X x X H null null null letter 1 1 1 88 na
-T t T L N D space letter 1 1 1 84 na
+T t T L N D second letter 1 1 1 84 na
 L l L Q tilda T J letter 1 1 1 76 na
 J j J null L null null letter 1 1 1 74 na
 Q q Q null null L null letter 1 1 1 81 na
@@ -29,7 +33,7 @@ D d D T greaterThen at lessThen letter 1 1 1 68 na
 greaterThen > > null null null D symbol 1 1 1 190 shift
 at @ @ D null null null symbol 1 1 1 50 shift
 lessThen < < null D null null symbol 1 1 1 188 shift
-A a A space C S U letter 1 1 1 65 na
+A a A third C S U letter 1 1 1 65 na
 C c C semiColon and colon A letter 1 1 1 67 na
 semiColon ; ; null null C null symbol 1 1 1 186 noShift
 and & & null null null C symbol 1 1 1 55 shift
@@ -47,7 +51,7 @@ U u U question A backSlash exclimation letter 1 1 1 85 na
 question ? ? null null U null symbol 1 1 1 191 shift
 backSlash \ \ U null null null symbol 1 1 1 220 noShift
 exclimation ! ! null U null null symbol 1 1 1 49 shift
-O o O F space M R letter 1 1 1 79 na
+O o O F fourth M R letter 1 1 1 79 na
 M m M O one two three letter 1 1 1 77 na
 one 1 1 null null null M number 1 1 1 49 noShift
 two 2 2 M plus minus mult number 1 1 1 50 noShift

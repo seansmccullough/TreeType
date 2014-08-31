@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using VirtualInput;
-
+using TreeType.autocomplete;
 namespace TreeType
 {
     /// <summary>
@@ -35,6 +35,10 @@ namespace TreeType
 
         //toggle mouse/keyboard mode
         private bool mouse = true;
+
+        private String word = "";
+
+        private Trie trie;
 
         public static ToggleWindow toggleWindow;
         
@@ -72,7 +76,7 @@ namespace TreeType
             {
                 this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
             }
-            
+            trie = new Trie("bullshit placeholder");
             keyboard = new Tree();
             keyboard = new TreeType.Tree();
             toggleWindow = new ToggleWindow();
@@ -352,12 +356,26 @@ namespace TreeType
             //enter
             if (key == Keys.Enter)
             {
+                //shift selected
                 if (keyboard.current.content == "shift")
                 {
                     keyboard.toggleShift();
                 }
+                //space selected
+                else if(keyboard.current.content == " ")
+                {
+                    word = "";
+                }
                 else
                 {
+                    //update current word, get top suggestions, put suggestions in auto boxes.
+                    word += keyboard.current.content;
+                    String[] suggestions = trie.top(word, keyboard.autoCompletes.Count);
+                    for (int i = 0; i < suggestions.Length; i++ )
+                    {
+                        keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
+                        keyboard.autoCompletes.ElementAt(i).visualNode.replace(suggestions[i]);
+                    }
                     if (keyboard.isShifted)
                     {
                         if (keyboard.current.shift == QuadNode.Shift.na || keyboard.current.shift == QuadNode.Shift.shift)
@@ -375,7 +393,7 @@ namespace TreeType
 
                     else
                     {
-                        if(keyboard.current.shift == QuadNode.Shift.shift)
+                        if (keyboard.current.shift == QuadNode.Shift.shift)
                         {
                             NativeMethods.KeyDown((char)16);
                             NativeMethods.KeyPress(keyboard.current.keyCode);

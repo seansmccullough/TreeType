@@ -94,6 +94,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="autocomplete\Trie.cs" />
     <Compile Include="models\Constant.cs" />
     <Compile Include="models\NativeMethods.cs" />
     <Compile Include="models\Settings.cs" />
