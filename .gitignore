@@ -2,8 +2,8 @@
 *.exe
 *.pdb
 *.exe
-TreeType/obj/*
-TreeType/bin/*
+TreeType\obj\*
+TreeType\bin\*
 *.pdb
 *.application
 *.manifest
