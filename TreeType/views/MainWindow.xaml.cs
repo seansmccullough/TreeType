@@ -402,7 +402,6 @@ namespace TreeType
                 {
                     if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
                     NativeMethods.type(keyboard.current.content.Substring(word.Length,keyboard.current.content.Length-word.Length));
-                    NativeMethods.type(" ");
                     word = "";
                 }
                 else

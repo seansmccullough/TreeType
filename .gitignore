@@ -3,3 +3,8 @@
 *.pdb
 *.exe
 TreeType/obj/Debug/TreeType_MarkupCompile.i.cache
+*.exe
+*.exe
+*.pdb
+*.application
+*.manifest
