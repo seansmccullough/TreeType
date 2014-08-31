@@ -2,9 +2,9 @@
 *.exe
 *.pdb
 *.exe
-TreeType/obj/Debug/TreeType_MarkupCompile.i.cache
-*.exe
-*.exe
+TreeType/obj/*
+TreeType/bin/*
 *.pdb
 *.application
 *.manifest
+*.suo

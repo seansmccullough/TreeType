@@ -7,8 +7,9 @@ namespace TreeType.autocomplete
 {
     class TrieNode
     {
-        //level rank, TrieNode
         public TrieNode[] next { get; set; }
+        
+        //for fast access to top words
         public SortedDictionary<Int16,String> topWords { get; set; }
         public String value { get; set; }
 

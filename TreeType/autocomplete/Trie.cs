@@ -9,6 +9,8 @@ namespace TreeType.autocomplete
     class Trie
     {
         private TrieNode root;
+
+        //so we don't have to start traversing from top of tree every time.  Ain't nobody got time for that.
         private TrieNode current;
         public Trie(String textFile)
         {
@@ -51,6 +53,8 @@ namespace TreeType.autocomplete
             else if (level == s.Length) return node;
             return get(node.next[s[level]-97], s, level + 1);
         }
+
+        //returns top num words beginning with String s
         public String[] top(String s, int num)
         {
             var words = new String[num];

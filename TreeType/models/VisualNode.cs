@@ -74,21 +74,33 @@ namespace TreeType
             //text
             this.text = new TextBlock();
             text.TextAlignment = TextAlignment.Center;
-            if (this.quadnode.type == QuadNode.Type.auto) this.text.Text = "";
-            else this.text.Text = quadnode.content;
-            this.text.FontSize = Constant.defaultFontSize;
+            if (this.quadnode.type == QuadNode.Type.auto) 
+            {
+                this.text.Text = "";
+                this.text.FontSize = Constant.autoFontSize;
+            }
+            else
+            {
+                this.text.Text = quadnode.content;
+                this.text.FontSize = Constant.defaultFontSize;
+            }
+                
             this.text.Foreground = Constant.defaultColor;
-            Canvas.SetLeft(this.text, x);
-            Canvas.SetTop(this.text, y);
+
+            Canvas.SetLeft(this.text, x - Constant.defaultWidth * this.quadnode.width / 2);
+            Canvas.SetTop(this.text, y - Constant.defaultHeight * this.quadnode.height / 2);
+
+            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.VerticalAlignment = VerticalAlignment.Center;
+
             canvas.Children.Add(this.text);
-            text.AddHandler(TextBlock.LoadedEvent, new RoutedEventHandler(textBoxLoaded));
+            text.AddHandler(Rectangle.LoadedEvent, new RoutedEventHandler(RectangleLoaded));
         }
         //centers TextBlock in Rectangle after the TextBlock has been loaded
-        private static void textBoxLoaded(object sender, RoutedEventArgs e)
+        private void RectangleLoaded(object sender, RoutedEventArgs e)
         {
-            TextBlock temp = sender as TextBlock;
-            Canvas.SetLeft(temp, Canvas.GetLeft(temp) - temp.ActualWidth/2);
-            Canvas.SetTop(temp, Canvas.GetTop(temp) - temp.ActualHeight / 2);
+            text.Width = box.ActualWidth;
+            text.Height = box.ActualHeight;
         }
         public void toggleSelected()
         {

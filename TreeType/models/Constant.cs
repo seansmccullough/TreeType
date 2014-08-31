@@ -19,6 +19,7 @@ namespace TreeType
         public static SolidColorBrush whiteColor = new SolidColorBrush(Colors.White);
         public static SolidColorBrush transparentColor = new SolidColorBrush(Colors.Transparent);
         public static int defaultFontSize = 17;
+        public static int autoFontSize = 12;
         public static int defaultHeight = 25;
         public static int defaultWidth = 25;
         public static int defaultTextOffsetX = 2;
