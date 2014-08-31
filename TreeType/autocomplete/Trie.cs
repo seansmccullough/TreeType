@@ -60,7 +60,7 @@ namespace TreeType.autocomplete
             var words = new String[num];
 
             //number or symbol bullshit up in here
-            if(s[s.Length-1] < 97 || s[s.Length-1] > 122)
+            if((s[s.Length-1] < 97) || s[s.Length-1] > 122)
             {
                 for(int i=0; i<words.Length; i++)
                 {

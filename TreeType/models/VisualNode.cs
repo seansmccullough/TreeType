@@ -90,9 +90,6 @@ namespace TreeType
             Canvas.SetLeft(this.text, x - Constant.defaultWidth * this.quadnode.width / 2);
             Canvas.SetTop(this.text, y - Constant.defaultHeight * this.quadnode.height / 2);
 
-            text.HorizontalAlignment = HorizontalAlignment.Center;
-            text.VerticalAlignment = VerticalAlignment.Center;
-
             canvas.Children.Add(this.text);
             text.AddHandler(Rectangle.LoadedEvent, new RoutedEventHandler(RectangleLoaded));
         }
@@ -101,6 +98,8 @@ namespace TreeType
         {
             text.Width = box.ActualWidth;
             text.Height = box.ActualHeight;
+            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.VerticalAlignment = VerticalAlignment.Center;
         }
         public void toggleSelected()
         {

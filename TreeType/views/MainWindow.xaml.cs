@@ -407,13 +407,21 @@ namespace TreeType
                 }
                 else
                 {
-                    //update current word, get top suggestions, put suggestions in auto boxes.
-                    word += keyboard.current.content;
-                    String[] suggestions = trie.top(word,keyboard.autoCompletes.Count);
-                    for (int i = 0; i < suggestions.Length; i++ )
+                    if(keyboard.current.type == QuadNode.Type.letter)
                     {
-                        keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
-                        keyboard.autoCompletes.ElementAt(i).visualNode.replace(suggestions[i]);
+                        //update current word, get top suggestions, put suggestions in auto boxes.
+                        word += keyboard.current.content;
+                        String[] suggestions = trie.top(word,keyboard.autoCompletes.Count);
+                        for (int i = 0; i < suggestions.Length; i++ )
+                        {
+                            keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
+                            keyboard.autoCompletes.ElementAt(i).visualNode.replace(suggestions[i]);
+                        }
+                    }
+                    else
+                    {
+                        word = "";
+                        keyboard.clearAuto();
                     }
                     if (keyboard.isShifted)
                     {
