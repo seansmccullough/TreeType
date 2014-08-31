@@ -392,13 +392,17 @@ namespace TreeType
                     keyboard.toggleShift();
                 }
                 //space selected
-                else if(keyboard.current.content == " ")
+                else if(keyboard.current.keyCode == 32)
                 {
                     word = "";
+                    keyboard.clearAuto();
+                    NativeMethods.KeyPress(keyboard.current.keyCode);
                 }
                 else if(keyboard.current.type == QuadNode.Type.auto)
                 {
-                    NativeMethods.type(keyboard.current.content);
+                    if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
+                    NativeMethods.type(keyboard.current.content.Substring(word.Length,keyboard.current.content.Length-word.Length));
+                    NativeMethods.type(" ");
                     word = "";
                 }
                 else

@@ -160,6 +160,14 @@ namespace TreeType
             }
             return true;
         }
+        public void clearAuto()
+        {
+            foreach(QuadNode q in autoCompletes)
+            {
+                q.content = "";
+                q.visualNode.replace("");
+            }
+        }
 
         public void up()
         {
