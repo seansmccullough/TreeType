@@ -76,7 +76,15 @@ namespace TreeType
             {
                 this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
             }
-            trie = new Trie("autocomplete/words10k.txt");
+            try
+            {
+                trie = new Trie("autocomplete/words10k.txt");
+            }
+            catch(Exception e)
+            {
+                System.Windows.MessageBox.Show("Unable to load words10k.txt: " + e.Message);
+                this.Close();
+            }
             keyboard = new Tree();
             keyboard = new TreeType.Tree();
             toggleWindow = new ToggleWindow();
@@ -388,11 +396,16 @@ namespace TreeType
                 {
                     word = "";
                 }
+                else if(keyboard.current.type == QuadNode.Type.auto)
+                {
+                    NativeMethods.type(keyboard.current.content);
+                    word = "";
+                }
                 else
                 {
                     //update current word, get top suggestions, put suggestions in auto boxes.
                     word += keyboard.current.content;
-                    String[] suggestions = trie.top(word, keyboard.autoCompletes.Count);
+                    String[] suggestions = trie.top(word,keyboard.autoCompletes.Count);
                     for (int i = 0; i < suggestions.Length; i++ )
                     {
                         keyboard.autoCompletes.ElementAt(i).content = suggestions[i];

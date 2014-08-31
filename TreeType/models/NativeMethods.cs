@@ -69,6 +69,15 @@ using System.Windows.Forms;
             return true;
         }
 
+        public static void type(string s)
+        {
+            for(int i=0; i<s.Length; i++)
+            {
+                KeyPress(s[i]);
+            }
+            KeyPress(' ');
+        }
+
         public static void KeyDown(char key)
         {
             keybd_event((byte)key, 0x45, 1 | 0, 0);
