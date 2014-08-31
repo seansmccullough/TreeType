@@ -53,24 +53,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TreeType.exe" size="175104">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TreeType.exe" size="314368">
       <assemblyIdentity name="TreeType" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>bfEb4p6du0Yr9jJ+uRrJa/t2kU0=</dsig:DigestValue>
+        <dsig:DigestValue>0Wj0Hs/qY1hlbyY+aZ04Dcdpbk8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="keyboards\mainTreeKeyboard.txt" size="3660">
+  <file name="keyboards\mainTreeKeyboard.txt" size="3882">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>Y62SNCnpoxPZZnk8tOdSRk6M5nY=</dsig:DigestValue>
+      <dsig:DigestValue>zuiHPoB+XCEp1JvAE/tom0fokPw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="treeIcon.ico" size="69470">

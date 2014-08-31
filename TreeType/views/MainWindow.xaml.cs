@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using VirtualInput;
-
+using TreeType.autocomplete;
 namespace TreeType
 {
     /// <summary>
@@ -35,6 +35,10 @@ namespace TreeType
 
         //toggle mouse/keyboard mode
         private bool mouse = true;
+
+        private String word = "";
+
+        private Trie trie;
 
         public static ToggleWindow toggleWindow;
         
@@ -72,7 +76,15 @@ namespace TreeType
             {
                 this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
             }
-            
+            try
+            {
+                trie = new Trie("autocomplete/words10k.txt");
+            }
+            catch(Exception e)
+            {
+                System.Windows.MessageBox.Show("Unable to load words10k.txt: " + e.Message);
+                this.Close();
+            }
             keyboard = new Tree();
             keyboard = new TreeType.Tree();
             toggleWindow = new ToggleWindow();
@@ -167,21 +179,30 @@ namespace TreeType
         {
             //calculate line length for this level
             int factor;
+            int passThoughFactor;
             if (current.depth == 1 || current.depth == 2) factor = 0;
             else factor = Convert.ToInt32(Math.Pow(2.0, current.depth - 3));
-            int lineLength = Constant.defaultLineLength * factor + Constant.defaultLineOffset + (Constant.defaultLineOffset * factor);
-            if (current.depth == keyboard.maxDepth) lineLength += 2*Constant.defaultLineLength;
+            passThoughFactor = Convert.ToInt32(Math.Pow(2.0, current.depth - 5));
+            int passThoughLineLength = Constant.defaultLineLength * passThoughFactor + Constant.defaultLineOffset + (Constant.defaultLineOffset * passThoughFactor);
+            int nonPassThoughLineLength = Constant.defaultLineLength * factor + Constant.defaultLineOffset + (Constant.defaultLineOffset * factor);
+            if (current.depth == keyboard.maxDepth) nonPassThoughLineLength += 2*Constant.defaultLineLength;
+            int lineLength = 0;
 
             //up
             if((current[Direction.Up] != null) && (!current[Direction.Up].rendered))
             {
                 current[Direction.Up].rendered = true;
 
+                if (current[Direction.Up].passThroughNode) lineLength = passThoughLineLength;
+                else if (current.passThroughNode) lineLength = nonPassThoughLineLength - Constant.defaultLineLength;
+                else lineLength = nonPassThoughLineLength;
+
                 Line newLine = lineBuilder(
                     x,
                     y - Convert.ToInt32(current.height * Constant.defaultHeight) / 2,
                     x,
                     y - lineLength - Convert.ToInt32(current.height * Constant.defaultHeight) / 2);
+                
 
                 VisualNode node = new VisualNode(
                     current[Direction.Up],
@@ -201,6 +222,10 @@ namespace TreeType
             if ((current[Direction.Right] != null) && (!current[Direction.Right].rendered))
             {
                 current[Direction.Right].rendered = true;
+
+                if (current[Direction.Right].passThroughNode) lineLength = passThoughLineLength;
+                else if (current.passThroughNode) lineLength = nonPassThoughLineLength - Constant.defaultLineLength;
+                else lineLength = nonPassThoughLineLength;
 
                 Line newLine = lineBuilder(
                     x + Convert.ToInt32(current.width * Constant.defaultWidth) / 2,
@@ -226,6 +251,10 @@ namespace TreeType
             {
                 current[Direction.Down].rendered = true;
 
+                if (current[Direction.Down].passThroughNode) lineLength = passThoughLineLength;
+                else if (current.passThroughNode) lineLength = nonPassThoughLineLength - Constant.defaultLineLength;
+                else lineLength = nonPassThoughLineLength;
+
                 Line newLine = lineBuilder(
                     x,
                     y + Convert.ToInt32(current.height * Constant.defaultHeight) / 2,
@@ -246,6 +275,11 @@ namespace TreeType
             if ((current[Direction.Left] != null) && (!current[Direction.Left].rendered))
             {
                 current[Direction.Left].rendered = true;
+
+                if (current[Direction.Left].passThroughNode) lineLength = passThoughLineLength;
+                else if (current.passThroughNode) lineLength = nonPassThoughLineLength - Constant.defaultLineLength;
+                else lineLength = nonPassThoughLineLength;
+
                 Line newLine = lineBuilder(
                     x - Convert.ToInt32(current.width * Constant.defaultWidth) / 2, 
                     y,
@@ -352,12 +386,43 @@ namespace TreeType
             //enter
             if (key == Keys.Enter)
             {
+                //shift selected
                 if (keyboard.current.content == "shift")
                 {
                     keyboard.toggleShift();
                 }
+                //space selected
+                else if(keyboard.current.keyCode == 32)
+                {
+                    word = "";
+                    keyboard.clearAuto();
+                    NativeMethods.KeyPress(keyboard.current.keyCode);
+                }
+                else if(keyboard.current.type == QuadNode.Type.auto)
+                {
+                    if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
+                    NativeMethods.type(keyboard.current.content.Substring(word.Length,keyboard.current.content.Length-word.Length));
+                    keyboard.clearAuto();
+                    word = "";
+                }
                 else
                 {
+                    if(keyboard.current.type == QuadNode.Type.letter)
+                    {
+                        //update current word, get top suggestions, put suggestions in auto boxes.
+                        word += keyboard.current.content;
+                        String[] suggestions = trie.top(word,keyboard.autoCompletes.Count);
+                        for (int i = 0; i < suggestions.Length; i++ )
+                        {
+                            keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
+                            keyboard.autoCompletes.ElementAt(i).visualNode.replace(suggestions[i]);
+                        }
+                    }
+                    else
+                    {
+                        word = "";
+                        keyboard.clearAuto();
+                    }
                     if (keyboard.isShifted)
                     {
                         if (keyboard.current.shift == QuadNode.Shift.na || keyboard.current.shift == QuadNode.Shift.shift)
@@ -375,7 +440,7 @@ namespace TreeType
 
                     else
                     {
-                        if(keyboard.current.shift == QuadNode.Shift.shift)
+                        if (keyboard.current.shift == QuadNode.Shift.shift)
                         {
                             NativeMethods.KeyDown((char)16);
                             NativeMethods.KeyPress(keyboard.current.keyCode);

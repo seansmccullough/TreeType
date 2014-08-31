@@ -69,6 +69,14 @@ using System.Windows.Forms;
             return true;
         }
 
+        public static void type(string s)
+        {
+            for(int i=0; i<s.Length; i++)
+            {
+                KeyPress(s[i]);
+            }
+        }
+
         public static void KeyDown(char key)
         {
             keybd_event((byte)key, 0x45, 1 | 0, 0);
@@ -79,10 +87,11 @@ using System.Windows.Forms;
             keybd_event((byte)key, 0x45, 1 | 0x0002, 0);
         }
 
-        public static void KeyPress(char key)
+        public static void KeyPress(char character)
         {
-            keybd_event((byte)key, 0x45, 1 | 0, 0);
-            keybd_event((byte)key, 0x45, 1 | 0x0002, 0);
+            byte key = Convert.ToByte(character-0x20);
+            keybd_event(key, 0x45, 1 | 0, 0);
+            keybd_event(key, 0x45, 1 | 0x0002, 0);
         }
 
         public static void KeyPress(Byte key)

@@ -24,6 +24,8 @@ namespace TreeType
 
         private QuadNode m_current;
 
+        public List<QuadNode> autoCompletes {get; private set;}
+
         public QuadNode current {
             get { return m_current; }
             private set
@@ -49,10 +51,10 @@ namespace TreeType
         public void loadFromFile(string textFile)
         {
             string line;
-            StreamReader reader;
+            var reader = File.OpenText(textFile);
             maxDepth = 0;
-            reader = File.OpenText(textFile);
-
+ 
+            autoCompletes = new List<QuadNode>();
             //create QuadNodes here
             while ((line = reader.ReadLine()) != null)
             {
@@ -82,7 +84,18 @@ namespace TreeType
                 newNode.strings[Direction.Right] = parameters[4];
                 newNode.strings[Direction.Down] = parameters[5];
                 newNode.strings[Direction.Left] = parameters[6];
-                newNode.type = parameters[7];
+
+                if (parameters[7] == "number") newNode.type = QuadNode.Type.number;
+                else if (parameters[7] == "auto") 
+                {
+                    newNode.type = QuadNode.Type.auto;
+                    autoCompletes.Add(newNode);
+                }
+                    
+                else if (parameters[7] == "special") newNode.type = QuadNode.Type.special;
+                else if (parameters[7] == "symbol") newNode.type = QuadNode.Type.symbol;
+                else newNode.type = QuadNode.Type.letter;
+
                 newNode.width = Convert.ToDouble(parameters[8]);
                 newNode.height = Convert.ToDouble(parameters[9]);
                 String snap = parameters[10];
@@ -119,6 +132,11 @@ namespace TreeType
                         e[direction] = nodes[nodeName];
                     }
                 }
+                if((e[Direction.Down] == null && e[Direction.Up] == null) 
+                    ||(e[Direction.Left] == null && e[Direction.Right] == null))
+                {
+                    e.passThroughNode = true;
+                }
             }
 
             this.current = root;
@@ -141,6 +159,14 @@ namespace TreeType
                 current = root;
             }
             return true;
+        }
+        public void clearAuto()
+        {
+            foreach(QuadNode q in autoCompletes)
+            {
+                q.content = "";
+                q.visualNode.replace("");
+            }
         }
 
         public void up()

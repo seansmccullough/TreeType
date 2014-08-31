@@ -1,0 +1,10 @@
+*.suo
+*.exe
+*.pdb
+*.exe
+TreeType\obj\*
+TreeType\bin\*
+*.pdb
+*.application
+*.manifest
+*.suo
