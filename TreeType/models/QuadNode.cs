@@ -40,6 +40,8 @@ namespace TreeType
         public VisualNode visualNode { get; set; }
         public Byte keyCode { get; set; }
         public Shift shift { get; set; }
+        //Refers to Node with parent and only one child, on the opposite side of the parent
+        public bool passThroughNode { get; set; }
 
         public QuadNode()
         {
@@ -52,6 +54,7 @@ namespace TreeType
             this.width = 1;
             this.height = 1;
             this.depth = 0;
+            this.passThroughNode = false;
         }
         /*
          * Returns the depth of current QuadNode and sets its depth field

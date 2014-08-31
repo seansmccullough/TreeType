@@ -53,14 +53,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TreeType.exe" size="176128">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TreeType.exe" size="176640">
       <assemblyIdentity name="TreeType" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>bn5DUTyjtd5Qtwplrm9MsKl0KEk=</dsig:DigestValue>
+        <dsig:DigestValue>/GNi4sa5If0E8YlF0zMecO8f5rA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -132,6 +132,11 @@ namespace TreeType
                         e[direction] = nodes[nodeName];
                     }
                 }
+                if((e[Direction.Down] == null && e[Direction.Up] == null) 
+                    ||(e[Direction.Left] == null && e[Direction.Right] == null))
+                {
+                    e.passThroughNode = true;
+                }
             }
 
             this.current = root;

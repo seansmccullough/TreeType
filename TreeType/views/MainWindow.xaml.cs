@@ -171,21 +171,30 @@ namespace TreeType
         {
             //calculate line length for this level
             int factor;
+            int passThoughFactor;
             if (current.depth == 1 || current.depth == 2) factor = 0;
             else factor = Convert.ToInt32(Math.Pow(2.0, current.depth - 3));
-            int lineLength = Constant.defaultLineLength * factor + Constant.defaultLineOffset + (Constant.defaultLineOffset * factor);
-            if (current.depth == keyboard.maxDepth) lineLength += 2*Constant.defaultLineLength;
+            passThoughFactor = Convert.ToInt32(Math.Pow(2.0, current.depth - 5));
+            int passThoughLineLength = Constant.defaultLineLength * passThoughFactor + Constant.defaultLineOffset + (Constant.defaultLineOffset * passThoughFactor);
+            int nonPassThoughLineLength = Constant.defaultLineLength * factor + Constant.defaultLineOffset + (Constant.defaultLineOffset * factor);
+            if (current.depth == keyboard.maxDepth) nonPassThoughLineLength += 2*Constant.defaultLineLength;
+            int lineLength = 0;
 
             //up
             if((current[Direction.Up] != null) && (!current[Direction.Up].rendered))
             {
                 current[Direction.Up].rendered = true;
 
+                if (current[Direction.Up].passThroughNode) lineLength = passThoughLineLength;
+                else if (current.passThroughNode) lineLength = nonPassThoughLineLength - Constant.defaultLineLength;
+                else lineLength = nonPassThoughLineLength;
+
                 Line newLine = lineBuilder(
                     x,
                     y - Convert.ToInt32(current.height * Constant.defaultHeight) / 2,
                     x,
                     y - lineLength - Convert.ToInt32(current.height * Constant.defaultHeight) / 2);
+                
 
                 VisualNode node = new VisualNode(
                     current[Direction.Up],
@@ -205,6 +214,10 @@ namespace TreeType
             if ((current[Direction.Right] != null) && (!current[Direction.Right].rendered))
             {
                 current[Direction.Right].rendered = true;
+
+                if (current[Direction.Right].passThroughNode) lineLength = passThoughLineLength;
+                else if (current.passThroughNode) lineLength = nonPassThoughLineLength - Constant.defaultLineLength;
+                else lineLength = nonPassThoughLineLength;
 
                 Line newLine = lineBuilder(
                     x + Convert.ToInt32(current.width * Constant.defaultWidth) / 2,
@@ -230,6 +243,10 @@ namespace TreeType
             {
                 current[Direction.Down].rendered = true;
 
+                if (current[Direction.Down].passThroughNode) lineLength = passThoughLineLength;
+                else if (current.passThroughNode) lineLength = nonPassThoughLineLength - Constant.defaultLineLength;
+                else lineLength = nonPassThoughLineLength;
+
                 Line newLine = lineBuilder(
                     x,
                     y + Convert.ToInt32(current.height * Constant.defaultHeight) / 2,
@@ -250,6 +267,11 @@ namespace TreeType
             if ((current[Direction.Left] != null) && (!current[Direction.Left].rendered))
             {
                 current[Direction.Left].rendered = true;
+
+                if (current[Direction.Left].passThroughNode) lineLength = passThoughLineLength;
+                else if (current.passThroughNode) lineLength = nonPassThoughLineLength - Constant.defaultLineLength;
+                else lineLength = nonPassThoughLineLength;
+
                 Line newLine = lineBuilder(
                     x - Convert.ToInt32(current.width * Constant.defaultWidth) / 2, 
                     y,
