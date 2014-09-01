@@ -128,13 +128,16 @@ namespace TreeType
         {
             if(quadnode.type == QuadNode.Type.auto)
             {
-                if(shift && quadnode.content.Length > 1)
+                if(quadnode.content.Length > 1)
                 {
-                    quadnode.content = Char.ToUpper(quadnode.content[0]) + quadnode.content.Substring(1);
-                }
-                else
-                {
-                    quadnode.content = Char.ToLower(quadnode.content[0]) + quadnode.content.Substring(1);
+                    if(shift)
+                    {
+                        quadnode.content = Char.ToUpper(quadnode.content[0]) + quadnode.content.Substring(1);
+                    }
+                    else
+                    {
+                        quadnode.content = Char.ToLower(quadnode.content[0]) + quadnode.content.Substring(1);
+                    }
                 }
                 shift = !shift;
             }

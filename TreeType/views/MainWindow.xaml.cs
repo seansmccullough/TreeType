@@ -384,10 +384,18 @@ namespace TreeType
         private void auto(string s)
         {
             String[] suggestions = trie.top(s, keyboard.autoCompletes.Count);
+
             for (int i = 0; i < suggestions.Length; i++)
             {
-                keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
-                keyboard.autoCompletes.ElementAt(i).visualNode.replace(suggestions[i]);
+                if(keyboard.isShifted)
+                {
+                    keyboard.autoCompletes.ElementAt(i).content = Char.ToUpper(suggestions[i][0]) + suggestions[i].Substring(1);
+                }
+                else
+                {
+                    keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
+                }
+                keyboard.autoCompletes.ElementAt(i).visualNode.replace(keyboard.autoCompletes.ElementAt(i).content);
             }
         }
         private bool OnButtonKeyDown(Keys key)
