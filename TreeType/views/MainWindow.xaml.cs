@@ -425,7 +425,11 @@ namespace TreeType
                     }
                     if (keyboard.isShifted)
                     {
-                        if (keyboard.current.shift == QuadNode.Shift.na || keyboard.current.shift == QuadNode.Shift.shift)
+                        if(keyboard.current.type == QuadNode.Type.auto)
+                        {
+
+                        }
+                        else if (keyboard.current.shift == QuadNode.Shift.na || keyboard.current.shift == QuadNode.Shift.shift)
                         {
                             NativeMethods.KeyDown((char)16);
                             NativeMethods.KeyPress(keyboard.current.keyCode);
