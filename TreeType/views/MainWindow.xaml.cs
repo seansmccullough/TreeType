@@ -78,7 +78,7 @@ namespace TreeType
             }
             try
             {
-                trie = new Trie("autocomplete/words10k.txt");
+                trie = new Trie(TreeType.Properties.Resources.words10k);
             }
             catch(Exception e)
             {
@@ -91,7 +91,7 @@ namespace TreeType
             toggleWindow.Show();
             try
             {
-                keyboard.loadFromFile("keyboards/mainTreeKeyboard.txt");
+                keyboard.loadFromFile(TreeType.Properties.Resources.mainTreeKeyboard);
             }
             catch (Exception e)
             {

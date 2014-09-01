@@ -12,21 +12,20 @@ namespace TreeType.autocomplete
 
         //so we don't have to start traversing from top of tree every time.  Ain't nobody got time for that.
         private TrieNode current;
-        public Trie(String textFile)
+        public Trie(string text)
         {
             root = new TrieNode();
             current = root;
-            string line;
-            var reader = File.OpenText(textFile);
+            string[] rawNodes = text.Split('\n');
 
             //create TrieNodes here
-            while ((line = reader.ReadLine()) != null)
+            for(int i=0; i<10000; i++)
             {
-                string[] parameters = line.Split(' ');
+                string[] parameters = rawNodes[i].Split(' ');
+                parameters[1] = parameters[1].Substring(0,parameters[1].Length-1);
                 put(Convert.ToInt16(parameters[1]), parameters[0]);
             }
 
-            reader.Close();
         }
         private void put(TrieNode node, Int16 rank, String s, int level)
         {

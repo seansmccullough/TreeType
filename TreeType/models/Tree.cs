@@ -59,15 +59,14 @@ namespace TreeType
 
         Dictionary<string, QuadNode> nodes = new Dictionary<string, QuadNode>();
 
-        public void loadFromFile(string textFile)
+        public void loadFromFile(string text)
         {
-            string line;
-            var reader = File.OpenText(textFile);
+            string[] rawNodes = text.Split('\n');
             maxDepth = 0;
  
             autoCompletes = new List<QuadNode>();
             //create QuadNodes here
-            while ((line = reader.ReadLine()) != null)
+            foreach(string line in rawNodes)
             {
                 /*
                  * 0 name
@@ -126,7 +125,6 @@ namespace TreeType
                     root = newNode;
                 }
             }
-            reader.Close();
 
             //populate up, right, left, and down properties here. 
             foreach (QuadNode e in nodes.Values)
