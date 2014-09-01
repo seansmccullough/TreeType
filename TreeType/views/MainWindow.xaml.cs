@@ -86,7 +86,6 @@ namespace TreeType
                 this.Close();
             }
             keyboard = new Tree();
-            keyboard = new TreeType.Tree();
             toggleWindow = new ToggleWindow();
             toggleWindow.Show();
             try
@@ -412,6 +411,7 @@ namespace TreeType
                 //space selected
                 else if(keyboard.current.keyCode == 32)
                 {
+                    keyboard.previousWord = keyboard.word;
                     keyboard.word = "";
                     keyboard.clearAuto();
                     NativeMethods.KeyPress(keyboard.current.keyCode);
@@ -438,57 +438,58 @@ namespace TreeType
                 {
                     if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
                     NativeMethods.type(keyboard.current.content.Substring(keyboard.word.Length,keyboard.current.content.Length-keyboard.word.Length));
-                    NativeMethods.KeyPress(32);
+                    //NativeMethods.KeyPress(32);
 
                     keyboard.auto = true;
                     keyboard.previousAutoCount = keyboard.autoCount;
                     keyboard.autoCount = keyboard.current.content.Length - keyboard.word.Length;
-
-                    keyboard.clearAuto();
                     keyboard.previousWord = keyboard.word;
-                    keyboard.word = "";
+                    keyboard.word += keyboard.current.content.Substring(keyboard.word.Length, keyboard.current.content.Length - keyboard.word.Length);
+                    auto(keyboard.word);
+
+                    //keyboard.clearAuto();
+                    //keyboard.previousWord = keyboard.word;
+                    //keyboard.word = "";
+                    if (keyboard.isShifted) keyboard.toggleShift();
                 }
-                else
+                //backspace
+                else if(keyboard.current.content == "back")
                 {
-                    if(keyboard.current.type == QuadNode.Type.letter)
+                    //if we just typed an autocompelted word, and the user hits backspace, we delete back to the point they were before
+                    if(keyboard.auto)
                     {
-                        //update current word, get top suggestions, put suggestions in auto boxes.
-                        keyboard.word += keyboard.current.content;
+                        for(int i=0; i<keyboard.autoCount; i++)
+                        {
+                            NativeMethods.KeyPress(8);
+                        }
+                        keyboard.auto = false;
+                        keyboard.autoCount = keyboard.previousAutoCount;
+                        keyboard.word = keyboard.previousWord;
                         auto(keyboard.word);
                     }
-                    else if(keyboard.current.content == "back")
+                    else
                     {
-                        //if we just typed an autocompelted word, and the user hits backspace, we delete back to the point they were before
-                        if(keyboard.auto)
+                        //backspace
+                        NativeMethods.KeyPress(8);
+                        if(keyboard.word.Length > 1)
                         {
-                            for(int i=0; i<keyboard.autoCount; i++)
-                            {
-                                NativeMethods.KeyPress(8);
-                            }
-                            keyboard.auto = false;
-                            keyboard.autoCount = keyboard.previousAutoCount;
-                            keyboard.word = keyboard.previousWord;
+                            keyboard.word = keyboard.word.Substring(0, keyboard.word.Length - 1);
                             auto(keyboard.word);
                         }
                         else
                         {
-                            //backspace
-                            NativeMethods.KeyPress(8);
-                            if(keyboard.word.Length > 1)
-                            {
-                                keyboard.word = keyboard.word.Substring(0, keyboard.word.Length - 1);
-                                auto(keyboard.word);
-                            }
-                            else
-                            {
-                                keyboard.clearAuto();
-                            }
+                            keyboard.clearAuto();
                         }
                     }
-                    else
+                }
+                else
+                {
+                    //actual letters
+                    if (keyboard.current.type == QuadNode.Type.letter)
                     {
-                        keyboard.word = "";
-                        keyboard.clearAuto();
+                        //update current word, get top suggestions, put suggestions in auto boxes.
+                        keyboard.word += keyboard.current.content;
+                        auto(keyboard.word);
                     }
                     if (keyboard.isShifted)
                     {
@@ -504,20 +505,9 @@ namespace TreeType
                         }
                         keyboard.toggleShift();
                     }
-
-                    else
-                    {
-                        if (keyboard.current.shift == QuadNode.Shift.shift)
-                        {
-                            NativeMethods.KeyDown((char)16);
-                            NativeMethods.KeyPress(keyboard.current.keyCode);
-                            NativeMethods.KeyUp((char)16);
-                        }
-                        else NativeMethods.KeyPress(keyboard.current.keyCode);
-                    }
+                    else NativeMethods.KeyPress(keyboard.current.keyCode);
                     keyboard.auto = false;
                 }
-
                 keyboard.enter();
                 return true;
             }
@@ -545,7 +535,6 @@ namespace TreeType
                 keyboard.down();
                 return true;
             }
-
             return false;
         }
     }

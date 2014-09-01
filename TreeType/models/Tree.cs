@@ -26,7 +26,6 @@ namespace TreeType
 
         public String word = "";
         public String previousWord = "";
-        public char lastChar;
 
         public int autoCount = 0;
         public int previousAutoCount = 0;
