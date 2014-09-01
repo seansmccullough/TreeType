@@ -381,6 +381,15 @@ namespace TreeType
             }
             passThrough = !passThrough;
         }
+        private void auto(string s)
+        {
+            String[] suggestions = trie.top(s, keyboard.autoCompletes.Count);
+            for (int i = 0; i < suggestions.Length; i++)
+            {
+                keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
+                keyboard.autoCompletes.ElementAt(i).visualNode.replace(suggestions[i]);
+            }
+        }
         private bool OnButtonKeyDown(Keys key)
         {
             //enter
@@ -402,6 +411,7 @@ namespace TreeType
                 {
                     if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
                     NativeMethods.type(keyboard.current.content.Substring(word.Length,keyboard.current.content.Length-word.Length));
+                    NativeMethods.KeyPress(32);
                     keyboard.clearAuto();
                     word = "";
                 }
@@ -411,12 +421,12 @@ namespace TreeType
                     {
                         //update current word, get top suggestions, put suggestions in auto boxes.
                         word += keyboard.current.content;
-                        String[] suggestions = trie.top(word,keyboard.autoCompletes.Count);
-                        for (int i = 0; i < suggestions.Length; i++ )
-                        {
-                            keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
-                            keyboard.autoCompletes.ElementAt(i).visualNode.replace(suggestions[i]);
-                        }
+                        auto(word);
+                    }
+                    else if(keyboard.current.content == "back")
+                    {
+                        word = word.Substring(0, word.Length - 1);
+                        auto(word);
                     }
                     else
                     {
@@ -425,11 +435,7 @@ namespace TreeType
                     }
                     if (keyboard.isShifted)
                     {
-                        if(keyboard.current.type == QuadNode.Type.auto)
-                        {
-
-                        }
-                        else if (keyboard.current.shift == QuadNode.Shift.na || keyboard.current.shift == QuadNode.Shift.shift)
+                        if (keyboard.current.shift == QuadNode.Shift.na || keyboard.current.shift == QuadNode.Shift.shift)
                         {
                             NativeMethods.KeyDown((char)16);
                             NativeMethods.KeyPress(keyboard.current.keyCode);
