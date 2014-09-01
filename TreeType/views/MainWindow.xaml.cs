@@ -36,7 +36,7 @@ namespace TreeType
         //toggle mouse/keyboard mode
         private bool mouse = true;
 
-        private String word = "";
+        private bool autoSentenceEnd = true;
 
         private Trie trie;
 
@@ -78,7 +78,7 @@ namespace TreeType
             }
             try
             {
-                trie = new Trie("autocomplete/words10k.txt");
+                trie = new Trie(TreeType.Properties.Resources.words10k);
             }
             catch(Exception e)
             {
@@ -91,7 +91,7 @@ namespace TreeType
             toggleWindow.Show();
             try
             {
-                keyboard.loadFromFile("keyboards/mainTreeKeyboard.txt");
+                keyboard.loadFromFile(TreeType.Properties.Resources.mainTreeKeyboard);
             }
             catch (Exception e)
             {
@@ -140,6 +140,7 @@ namespace TreeType
               Constant.threshold is not persistant*/
             Constant.threshold = (int)((NativeMethods.GetSystemMetrics(NativeMethods.Y_SCREEN)
                 * Properties.Settings.Default.Sensitivity / 100));
+            autoSentenceEnd = Properties.Settings.Default.AutoSentenceEnd;
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -381,6 +382,23 @@ namespace TreeType
             }
             passThrough = !passThrough;
         }
+        private void auto(string s)
+        {
+            String[] suggestions = trie.top(s, keyboard.autoCompletes.Count);
+
+            for (int i = 0; i < suggestions.Length; i++)
+            {
+                if(keyboard.isShifted)
+                {
+                    keyboard.autoCompletes.ElementAt(i).content = Char.ToUpper(suggestions[i][0]) + suggestions[i].Substring(1);
+                }
+                else
+                {
+                    keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
+                }
+                keyboard.autoCompletes.ElementAt(i).visualNode.replace(keyboard.autoCompletes.ElementAt(i).content);
+            }
+        }
         private bool OnButtonKeyDown(Keys key)
         {
             //enter
@@ -394,33 +412,82 @@ namespace TreeType
                 //space selected
                 else if(keyboard.current.keyCode == 32)
                 {
-                    word = "";
+                    keyboard.word = "";
                     keyboard.clearAuto();
                     NativeMethods.KeyPress(keyboard.current.keyCode);
                 }
+                //period selected
+                else if(keyboard.current.content == ".")
+                {
+                    if(autoSentenceEnd)
+                    {
+                        NativeMethods.KeyPress(keyboard.current.keyCode);
+                        NativeMethods.KeyPress(32);
+                        NativeMethods.KeyPress(32);
+                        if (!keyboard.isShifted) keyboard.toggleShift();
+                        keyboard.clearAuto();
+                        keyboard.word = "";
+                    }
+                    else
+                    {
+                        NativeMethods.KeyPress(keyboard.current.keyCode);
+                    }
+                }
+                //autocomplete selected
                 else if(keyboard.current.type == QuadNode.Type.auto)
                 {
                     if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
-                    NativeMethods.type(keyboard.current.content.Substring(word.Length,keyboard.current.content.Length-word.Length));
+                    NativeMethods.type(keyboard.current.content.Substring(keyboard.word.Length,keyboard.current.content.Length-keyboard.word.Length));
+                    NativeMethods.KeyPress(32);
+
+                    keyboard.auto = true;
+                    keyboard.previousAutoCount = keyboard.autoCount;
+                    keyboard.autoCount = keyboard.current.content.Length - keyboard.word.Length;
+
                     keyboard.clearAuto();
-                    word = "";
+                    keyboard.previousWord = keyboard.word;
+                    keyboard.word = "";
                 }
                 else
                 {
                     if(keyboard.current.type == QuadNode.Type.letter)
                     {
                         //update current word, get top suggestions, put suggestions in auto boxes.
-                        word += keyboard.current.content;
-                        String[] suggestions = trie.top(word,keyboard.autoCompletes.Count);
-                        for (int i = 0; i < suggestions.Length; i++ )
+                        keyboard.word += keyboard.current.content;
+                        auto(keyboard.word);
+                    }
+                    else if(keyboard.current.content == "back")
+                    {
+                        //if we just typed an autocompelted word, and the user hits backspace, we delete back to the point they were before
+                        if(keyboard.auto)
                         {
-                            keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
-                            keyboard.autoCompletes.ElementAt(i).visualNode.replace(suggestions[i]);
+                            for(int i=0; i<keyboard.autoCount; i++)
+                            {
+                                NativeMethods.KeyPress(8);
+                            }
+                            keyboard.auto = false;
+                            keyboard.autoCount = keyboard.previousAutoCount;
+                            keyboard.word = keyboard.previousWord;
+                            auto(keyboard.word);
+                        }
+                        else
+                        {
+                            //backspace
+                            NativeMethods.KeyPress(8);
+                            if(keyboard.word.Length > 1)
+                            {
+                                keyboard.word = keyboard.word.Substring(0, keyboard.word.Length - 1);
+                                auto(keyboard.word);
+                            }
+                            else
+                            {
+                                keyboard.clearAuto();
+                            }
                         }
                     }
                     else
                     {
-                        word = "";
+                        keyboard.word = "";
                         keyboard.clearAuto();
                     }
                     if (keyboard.isShifted)
@@ -448,6 +515,7 @@ namespace TreeType
                         }
                         else NativeMethods.KeyPress(keyboard.current.keyCode);
                     }
+                    keyboard.auto = false;
                 }
 
                 keyboard.enter();

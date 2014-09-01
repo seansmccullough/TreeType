@@ -73,7 +73,16 @@ using System.Windows.Forms;
         {
             for(int i=0; i<s.Length; i++)
             {
-                KeyPress(s[i]);
+                if(Char.IsUpper(s[i]))
+                {
+                    NativeMethods.KeyDown((char)16);
+                    KeyPress(s[i]);
+                    NativeMethods.KeyUp((char)16);
+                }
+                else
+                {
+                    KeyPress(s[i]);
+                }
             }
         }
 

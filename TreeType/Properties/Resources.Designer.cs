@@ -59,5 +59,82 @@ namespace TreeType.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to space space space first second third fourth letter 2 1 1 32 noShift
+        ///first 0 0 E null space null auto 3 1 1 0 noShift
+        ///second 0 0 null T null space auto 3 1 1 0 noShift
+        ///third 0 0 space null A null auto 3 1 1 0 noShift
+        ///fourth 0 0 null space null O auto 3 1 1 0 noShift
+        ///E e E I H first G letter 1 1 1 69 na
+        ///G g G leftCurly E rightCurly verticalLine letter 1 1 1 71 na
+        ///leftCurly { { null null G null symbol 1 1 1 219 shift
+        ///rightCurly } } G null null null symbol 1 1 1 221 shift
+        ///verticalLine | | null G null n [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string mainTreeKeyboard {
+            get {
+                return ResourceManager.GetString("mainTreeKeyboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the 10000
+        ///of 9999
+        ///and 9998
+        ///to 9997
+        ///a 9996
+        ///in 9995
+        ///for 9994
+        ///is 9993
+        ///on 9992
+        ///that 9991
+        ///by 9990
+        ///this 9989
+        ///with 9988
+        ///i 9987
+        ///you 9986
+        ///it 9985
+        ///not 9984
+        ///or 9983
+        ///be 9982
+        ///are 9981
+        ///from 9980
+        ///at 9979
+        ///as 9978
+        ///your 9977
+        ///all 9976
+        ///have 9975
+        ///new 9974
+        ///more 9973
+        ///an 9972
+        ///was 9971
+        ///we 9970
+        ///will 9969
+        ///home 9968
+        ///can 9967
+        ///us 9966
+        ///about 9965
+        ///if 9964
+        ///page 9963
+        ///my 9962
+        ///has 9961
+        ///search 9960
+        ///free 9959
+        ///but 9958
+        ///our 9957
+        ///one 9956
+        ///other 9955
+        ///do 9954
+        ///no 9953
+        ///information 9952
+        ///time 9951
+        ///they 9 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string words10k {
+            get {
+                return ResourceManager.GetString("words10k", resourceCulture);
+            }
+        }
     }
 }

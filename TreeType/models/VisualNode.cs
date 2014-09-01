@@ -88,18 +88,21 @@ namespace TreeType
             this.text.Foreground = Constant.defaultColor;
 
             Canvas.SetLeft(this.text, x - Constant.defaultWidth * this.quadnode.width / 2);
-            Canvas.SetTop(this.text, y - Constant.defaultHeight * this.quadnode.height / 2);
+            //Canvas.SetTop(this.text, y - Constant.defaultHeight * this.quadnode.height / 2);
 
             canvas.Children.Add(this.text);
+
+            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.VerticalAlignment = VerticalAlignment.Center;
+
             text.AddHandler(Rectangle.LoadedEvent, new RoutedEventHandler(RectangleLoaded));
         }
         //centers TextBlock in Rectangle after the TextBlock has been loaded
         private void RectangleLoaded(object sender, RoutedEventArgs e)
         {
             text.Width = box.ActualWidth;
-            text.Height = box.ActualHeight;
-            text.HorizontalAlignment = HorizontalAlignment.Center;
-            text.VerticalAlignment = VerticalAlignment.Center;
+            Canvas.SetTop(text, Canvas.GetTop(this.box) + this.box.ActualHeight / 2 - text.ActualHeight / 2);
+            //text.Height = box.ActualHeight;
         }
         public void toggleSelected()
         {
@@ -123,9 +126,27 @@ namespace TreeType
         }
         public void toggleShift()
         {
-            if (shift) text.Text = quadnode.content;
-            else text.Text = quadnode.contentShift;
-            shift = !shift;
+            if(quadnode.type == QuadNode.Type.auto)
+            {
+                if(quadnode.content.Length > 1)
+                {
+                    if(shift)
+                    {
+                        quadnode.content = Char.ToUpper(quadnode.content[0]) + quadnode.content.Substring(1);
+                    }
+                    else
+                    {
+                        quadnode.content = Char.ToLower(quadnode.content[0]) + quadnode.content.Substring(1);
+                    }
+                }
+                shift = !shift;
+            }
+            else
+            {
+                if (shift) text.Text = quadnode.content;
+                else text.Text = quadnode.contentShift;
+                shift = !shift;
+            }
         }
         public void replace(String newStr)
         {
