@@ -1,6 +1,0 @@
-C:\Users\Sean\Documents\TreeType\10kConvert\bin\Debug\10kConvert.exe.config
-C:\Users\Sean\Documents\TreeType\10kConvert\bin\Debug\10kConvert.exe
-C:\Users\Sean\Documents\TreeType\10kConvert\bin\Debug\10kConvert.pdb
-C:\Users\Sean\Documents\TreeType\10kConvert\obj\Debug\10kConvert.csprojResolveAssemblyReference.cache
-C:\Users\Sean\Documents\TreeType\10kConvert\obj\Debug\10kConvert.exe
-C:\Users\Sean\Documents\TreeType\10kConvert\obj\Debug\10kConvert.pdb
