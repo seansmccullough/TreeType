@@ -8,3 +8,6 @@ TreeType\bin\*
 *.application
 *.manifest
 *.suo
+TreeType.v12.suo
+TreeType/bin/Debug/TreeType.application
+TreeType/bin/Debug/TreeType.pdb

@@ -1,2 +1,0 @@
-TreeType/bin/*
-10kConvert/bin/*
