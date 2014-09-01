@@ -36,6 +36,7 @@ namespace TreeType
         //toggle mouse/keyboard mode
         private bool mouse = true;
 
+        private bool autoSentenceEnd = true;
 
         private Trie trie;
 
@@ -139,6 +140,7 @@ namespace TreeType
               Constant.threshold is not persistant*/
             Constant.threshold = (int)((NativeMethods.GetSystemMetrics(NativeMethods.Y_SCREEN)
                 * Properties.Settings.Default.Sensitivity / 100));
+            autoSentenceEnd = Properties.Settings.Default.AutoSentenceEnd;
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -414,6 +416,24 @@ namespace TreeType
                     keyboard.clearAuto();
                     NativeMethods.KeyPress(keyboard.current.keyCode);
                 }
+                //period selected
+                else if(keyboard.current.content == ".")
+                {
+                    if(autoSentenceEnd)
+                    {
+                        NativeMethods.KeyPress(keyboard.current.keyCode);
+                        NativeMethods.KeyPress(32);
+                        NativeMethods.KeyPress(32);
+                        if (!keyboard.isShifted) keyboard.toggleShift();
+                        keyboard.clearAuto();
+                        keyboard.word = "";
+                    }
+                    else
+                    {
+                        NativeMethods.KeyPress(keyboard.current.keyCode);
+                    }
+                }
+                //autocomplete selected
                 else if(keyboard.current.type == QuadNode.Type.auto)
                 {
                     if (keyboard.current.content == "" || keyboard.current.content == "0") return true;

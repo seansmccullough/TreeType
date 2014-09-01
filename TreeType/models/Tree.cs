@@ -26,13 +26,16 @@ namespace TreeType
 
         public String word = "";
         public String previousWord = "";
+        public char lastChar;
+
+        public int autoCount = 0;
+        public int previousAutoCount = 0;
 
         public List<QuadNode> autoCompletes {get; private set;}
 
         //keeps track of if last typed string was an autocomplete.
         public bool auto = false;
-        public int autoCount = 0;
-        public int previousAutoCount = 0;
+
 
         public QuadNode current {
             get { return m_current; }
