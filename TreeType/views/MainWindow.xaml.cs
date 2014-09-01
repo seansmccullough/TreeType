@@ -36,7 +36,6 @@ namespace TreeType
         //toggle mouse/keyboard mode
         private bool mouse = true;
 
-        private String word = "";
 
         private Trie trie;
 
@@ -411,34 +410,64 @@ namespace TreeType
                 //space selected
                 else if(keyboard.current.keyCode == 32)
                 {
-                    word = "";
+                    keyboard.word = "";
                     keyboard.clearAuto();
                     NativeMethods.KeyPress(keyboard.current.keyCode);
                 }
                 else if(keyboard.current.type == QuadNode.Type.auto)
                 {
                     if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
-                    NativeMethods.type(keyboard.current.content.Substring(word.Length,keyboard.current.content.Length-word.Length));
+                    NativeMethods.type(keyboard.current.content.Substring(keyboard.word.Length,keyboard.current.content.Length-keyboard.word.Length));
                     NativeMethods.KeyPress(32);
+
+                    keyboard.auto = true;
+                    keyboard.previousAutoCount = keyboard.autoCount;
+                    keyboard.autoCount = keyboard.current.content.Length - keyboard.word.Length;
+
                     keyboard.clearAuto();
-                    word = "";
+                    keyboard.previousWord = keyboard.word;
+                    keyboard.word = "";
                 }
                 else
                 {
                     if(keyboard.current.type == QuadNode.Type.letter)
                     {
                         //update current word, get top suggestions, put suggestions in auto boxes.
-                        word += keyboard.current.content;
-                        auto(word);
+                        keyboard.word += keyboard.current.content;
+                        auto(keyboard.word);
                     }
                     else if(keyboard.current.content == "back")
                     {
-                        word = word.Substring(0, word.Length - 1);
-                        auto(word);
+                        //if we just typed an autocompelted word, and the user hits backspace, we delete back to the point they were before
+                        if(keyboard.auto)
+                        {
+                            for(int i=0; i<keyboard.autoCount; i++)
+                            {
+                                NativeMethods.KeyPress(8);
+                            }
+                            keyboard.auto = false;
+                            keyboard.autoCount = keyboard.previousAutoCount;
+                            keyboard.word = keyboard.previousWord;
+                            auto(keyboard.word);
+                        }
+                        else
+                        {
+                            //backspace
+                            NativeMethods.KeyPress(8);
+                            if(keyboard.word.Length > 1)
+                            {
+                                keyboard.word = keyboard.word.Substring(0, keyboard.word.Length - 1);
+                                auto(keyboard.word);
+                            }
+                            else
+                            {
+                                keyboard.clearAuto();
+                            }
+                        }
                     }
                     else
                     {
-                        word = "";
+                        keyboard.word = "";
                         keyboard.clearAuto();
                     }
                     if (keyboard.isShifted)
@@ -466,6 +495,7 @@ namespace TreeType
                         }
                         else NativeMethods.KeyPress(keyboard.current.keyCode);
                     }
+                    keyboard.auto = false;
                 }
 
                 keyboard.enter();
