@@ -35,6 +35,7 @@ namespace TreeType
 
             //Properties.Settings.Default.Sensitivity maps directly to SenesitivitySlider.Value
             SensitivitySlider.Value = Properties.Settings.Default.Sensitivity;
+            autoSentance.IsChecked = Properties.Settings.Default.AutoSentenceEnd;
         }
         protected void startup(Object sender, RoutedEventArgs e)
         {
@@ -47,6 +48,7 @@ namespace TreeType
             Constant.threshold = (int)((((double)(SensitivitySlider.Value)) / 100)
                 * NativeMethods.GetSystemMetrics(NativeMethods.Y_SCREEN));
             Properties.Settings.Default.Sensitivity = (int)SensitivitySlider.Value;
+            Properties.Settings.Default.AutoSentenceEnd = (bool)autoSentance.IsChecked;
             Properties.Settings.Default.Save();
             ToggleWindow.settings = false;
             MainWindow.toggleWindow.Show();
@@ -67,6 +69,11 @@ namespace TreeType
             {
                 SensitivitySlider.Value--;
             }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

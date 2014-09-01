@@ -24,6 +24,19 @@ namespace TreeType
 
         private QuadNode m_current;
 
+        public String word = "";
+        public String previousWord = "";
+        public char lastChar;
+
+        public int autoCount = 0;
+        public int previousAutoCount = 0;
+
+        public List<QuadNode> autoCompletes {get; private set;}
+
+        //keeps track of if last typed string was an autocomplete.
+        public bool auto = false;
+
+
         public QuadNode current {
             get { return m_current; }
             private set
@@ -46,15 +59,14 @@ namespace TreeType
 
         Dictionary<string, QuadNode> nodes = new Dictionary<string, QuadNode>();
 
-        public void loadFromFile(string textFile)
+        public void loadFromFile(string text)
         {
-            string line;
-            StreamReader reader;
+            string[] rawNodes = text.Split('\n');
             maxDepth = 0;
-            reader = File.OpenText(textFile);
-
+ 
+            autoCompletes = new List<QuadNode>();
             //create QuadNodes here
-            while ((line = reader.ReadLine()) != null)
+            foreach(string line in rawNodes)
             {
                 /*
                  * 0 name
@@ -82,7 +94,18 @@ namespace TreeType
                 newNode.strings[Direction.Right] = parameters[4];
                 newNode.strings[Direction.Down] = parameters[5];
                 newNode.strings[Direction.Left] = parameters[6];
-                newNode.type = parameters[7];
+
+                if (parameters[7] == "number") newNode.type = QuadNode.Type.number;
+                else if (parameters[7] == "auto") 
+                {
+                    newNode.type = QuadNode.Type.auto;
+                    autoCompletes.Add(newNode);
+                }
+                    
+                else if (parameters[7] == "special") newNode.type = QuadNode.Type.special;
+                else if (parameters[7] == "symbol") newNode.type = QuadNode.Type.symbol;
+                else newNode.type = QuadNode.Type.letter;
+
                 newNode.width = Convert.ToDouble(parameters[8]);
                 newNode.height = Convert.ToDouble(parameters[9]);
                 String snap = parameters[10];
@@ -102,7 +125,6 @@ namespace TreeType
                     root = newNode;
                 }
             }
-            reader.Close();
 
             //populate up, right, left, and down properties here. 
             foreach (QuadNode e in nodes.Values)
@@ -118,6 +140,11 @@ namespace TreeType
                     {
                         e[direction] = nodes[nodeName];
                     }
+                }
+                if((e[Direction.Down] == null && e[Direction.Up] == null) 
+                    ||(e[Direction.Left] == null && e[Direction.Right] == null))
+                {
+                    e.passThroughNode = true;
                 }
             }
 
@@ -141,6 +168,14 @@ namespace TreeType
                 current = root;
             }
             return true;
+        }
+        public void clearAuto()
+        {
+            foreach(QuadNode q in autoCompletes)
+            {
+                q.content = "";
+                q.visualNode.replace("");
+            }
         }
 
         public void up()

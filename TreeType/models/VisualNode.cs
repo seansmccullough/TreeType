@@ -49,19 +49,19 @@ namespace TreeType
             //box background color
             switch(quadnode.type)
             {
-                case "letter":
-                    box.Fill = Constant.letterBackgroundColor;
-                    defaultColor = Constant.letterBackgroundColor;
-                    break;
-                case "symbol":
+                //case QuadNode.Type.letter:
+                //    box.Fill = Constant.letterBackgroundColor;
+                //    defaultColor = Constant.letterBackgroundColor;
+                //    break;
+                case QuadNode.Type.symbol:
                     box.Fill = Constant.symbolBackgroundColor;
                     defaultColor = Constant.symbolBackgroundColor;
                     break;
-                case "number":
+                case QuadNode.Type.number:
                     box.Fill = Constant.numberBackgroundColor;
                     defaultColor = Constant.numberBackgroundColor;
                     break;
-                case "special":
+                case QuadNode.Type.special:
                     box.Fill = Constant.specialBackgroundColor;
                     defaultColor = Constant.specialBackgroundColor;
                     break;
@@ -74,20 +74,35 @@ namespace TreeType
             //text
             this.text = new TextBlock();
             text.TextAlignment = TextAlignment.Center;
-            this.text.Text = quadnode.content;
-            this.text.FontSize = Constant.defaultFontSize;
+            if (this.quadnode.type == QuadNode.Type.auto) 
+            {
+                this.text.Text = "";
+                this.text.FontSize = Constant.autoFontSize;
+            }
+            else
+            {
+                this.text.Text = quadnode.content;
+                this.text.FontSize = Constant.defaultFontSize;
+            }
+                
             this.text.Foreground = Constant.defaultColor;
-            Canvas.SetLeft(this.text, x);
-            Canvas.SetTop(this.text, y);
+
+            Canvas.SetLeft(this.text, x - Constant.defaultWidth * this.quadnode.width / 2);
+            //Canvas.SetTop(this.text, y - Constant.defaultHeight * this.quadnode.height / 2);
+
             canvas.Children.Add(this.text);
-            text.AddHandler(TextBlock.LoadedEvent, new RoutedEventHandler(textBoxLoaded));
+
+            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.VerticalAlignment = VerticalAlignment.Center;
+
+            text.AddHandler(Rectangle.LoadedEvent, new RoutedEventHandler(RectangleLoaded));
         }
         //centers TextBlock in Rectangle after the TextBlock has been loaded
-        private static void textBoxLoaded(object sender, RoutedEventArgs e)
+        private void RectangleLoaded(object sender, RoutedEventArgs e)
         {
-            TextBlock temp = sender as TextBlock;
-            Canvas.SetLeft(temp, Canvas.GetLeft(temp) - temp.ActualWidth/2);
-            Canvas.SetTop(temp, Canvas.GetTop(temp) - temp.ActualHeight / 2);
+            text.Width = box.ActualWidth;
+            Canvas.SetTop(text, Canvas.GetTop(this.box) + this.box.ActualHeight / 2 - text.ActualHeight / 2);
+            //text.Height = box.ActualHeight;
         }
         public void toggleSelected()
         {
@@ -111,9 +126,31 @@ namespace TreeType
         }
         public void toggleShift()
         {
-            if (shift) text.Text = quadnode.content;
-            else text.Text = quadnode.contentShift;
-            shift = !shift;
+            if(quadnode.type == QuadNode.Type.auto)
+            {
+                if(quadnode.content.Length > 1)
+                {
+                    if(shift)
+                    {
+                        quadnode.content = Char.ToUpper(quadnode.content[0]) + quadnode.content.Substring(1);
+                    }
+                    else
+                    {
+                        quadnode.content = Char.ToLower(quadnode.content[0]) + quadnode.content.Substring(1);
+                    }
+                }
+                shift = !shift;
+            }
+            else
+            {
+                if (shift) text.Text = quadnode.content;
+                else text.Text = quadnode.contentShift;
+                shift = !shift;
+            }
+        }
+        public void replace(String newStr)
+        {
+            text.Text = newStr;
         }
     }
 }

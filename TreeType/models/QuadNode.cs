@@ -10,6 +10,7 @@ namespace TreeType
     public class QuadNode
     {
         public enum Shift { shift, noShift, na };
+        public enum Type { letter, symbol, number, special, auto }
         // Pointers to nearby nodes
         private Dictionary<Direction, QuadNode> neighbors;
         public Dictionary<Direction, string> strings;
@@ -30,7 +31,7 @@ namespace TreeType
         //scaling factor for defaultHeight
         public double width { get; set; }
 
-        public string type { get; set; }
+        public Type type { get; set; }
         public int depth { get; set; }
         public Boolean snap { get; set; }
 
@@ -39,6 +40,8 @@ namespace TreeType
         public VisualNode visualNode { get; set; }
         public Byte keyCode { get; set; }
         public Shift shift { get; set; }
+        //Refers to Node with parent and only one child, on the opposite side of the parent
+        public bool passThroughNode { get; set; }
 
         public QuadNode()
         {
@@ -51,6 +54,7 @@ namespace TreeType
             this.width = 1;
             this.height = 1;
             this.depth = 0;
+            this.passThroughNode = false;
         }
         /*
          * Returns the depth of current QuadNode and sets its depth field
