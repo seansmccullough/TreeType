@@ -454,12 +454,10 @@ namespace TreeType
                 else if(keyboard.current.type == QuadNode.Type.auto)
                 {
                     if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
-                    NativeMethods.type(keyboard.current.content.Substring(keyboard.word.Length,keyboard.current.content.Length-keyboard.word.Length));
-                    //NativeMethods.KeyPress(32);
                     string temp = keyboard.current.content.Substring(keyboard.word.Length, keyboard.current.content.Length - keyboard.word.Length);
+                    NativeMethods.type(temp);
                     keyboard.word += temp;
                     stack.Push(temp);
-                    
                     auto(keyboard.word);
 
                     if (keyboard.isShifted) keyboard.toggleShift();
@@ -467,20 +465,33 @@ namespace TreeType
                 //backspace
                 else if(keyboard.current.content == "back")
                 {
-                    if (stack.Count > 0)
+                    if (stack.Count > 1)
                     {
                         string temp = stack.Pop();
                         for(int i=0; i<temp.Length; i++)
                         {
                             NativeMethods.KeyPress(8);
                         }
-                        keyboard.word = keyboard.word.Substring(0, keyboard.word.Length - temp.Length);
-                        if (keyboard.word.Length > 0) auto(keyboard.word);
-                        else keyboard.clearAutos();
+                        if(keyboard.word.Length > 0)
+                        {
+                            keyboard.word = keyboard.word.Substring(0, keyboard.word.Length - temp.Length);
+                        }
+                        else if(keyboard.word.Length == 0)
+                        {
+                            temp = stack.Pop();
+                            while (stack.Count > 0 && temp != " ")
+                            {
+                                keyboard.word = temp + keyboard.word;
+                                temp = stack.Pop();
+                            }
+                            stack.Push(temp);
+                        }
+                        auto(keyboard.word);
                     }
                     else
                     {
                         NativeMethods.KeyPress(8);
+                        keyboard.clearAutos();
                     }
                     if (keyboard.isShifted) keyboard.toggleShift();
                 }
@@ -499,6 +510,7 @@ namespace TreeType
                     else
                     {
                         keyboard.clearAutos();
+                        keyboard.word = "";
                     }
                     if (keyboard.isShifted)
                     {
