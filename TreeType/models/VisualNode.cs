@@ -130,13 +130,16 @@ namespace TreeType
             {
                 if(quadnode.content != null)
                 {
-                    if(shift)
+                    if (quadnode.content.Length > 0)
                     {
-                        quadnode.content = Char.ToUpper(quadnode.content[0]) + quadnode.content.Substring(1);
-                    }
-                    else
-                    {
-                        quadnode.content = Char.ToLower(quadnode.content[0]) + quadnode.content.Substring(1);
+                        if (shift)
+                        {
+                            quadnode.content = Char.ToUpper(quadnode.content[0]) + quadnode.content.Substring(1);
+                        }
+                        else
+                        {
+                            quadnode.content = Char.ToLower(quadnode.content[0]) + quadnode.content.Substring(1);
+                        }
                     }
                 }
                 shift = !shift;

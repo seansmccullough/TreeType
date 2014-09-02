@@ -38,6 +38,8 @@ namespace TreeType
 
         private bool autoSentenceEnd = true;
 
+        private bool space = false;
+
         private Trie trie;
 
         public static ToggleWindow toggleWindow;
@@ -414,29 +416,43 @@ namespace TreeType
                 //space 
                 else if(keyboard.current.keyCode == 32)
                 {
-                    keyboard.previousWord = keyboard.word;
-                    keyboard.word = "";
-                    keyboard.clearAutos();
-                    NativeMethods.KeyPress(keyboard.current.keyCode);
-                }
-                //period 
-                else if(keyboard.current.content == ".")
-                {
-                    keyboard.auto = false;
-                    if(autoSentenceEnd)
+                    if(autoSentenceEnd && space)
                     {
-                        NativeMethods.KeyPress(keyboard.current.keyCode);
+                        NativeMethods.KeyPress(8);
+                        NativeMethods.KeyPress(190);
                         NativeMethods.KeyPress(32);
                         NativeMethods.KeyPress(32);
-                        if (!keyboard.isShifted) keyboard.toggleShift();
-                        keyboard.clearAutos();
-                        keyboard.word = "";
+                        keyboard.toggleShift();
+                        space = false;
                     }
                     else
                     {
+                        keyboard.previousWord = keyboard.word;
                         NativeMethods.KeyPress(keyboard.current.keyCode);
+                        space = true; 
                     }
+                    keyboard.word = "";
+                    keyboard.clearAutos();
+                    return true;
                 }
+                //period 
+                //else if(keyboard.current.content == ".")
+                //{
+                //    keyboard.auto = false;
+                //    if(autoSentenceEnd)
+                //    {
+                //        NativeMethods.KeyPress(keyboard.current.keyCode);
+                //        NativeMethods.KeyPress(32);
+                //        NativeMethods.KeyPress(32);
+                //        if (!keyboard.isShifted) keyboard.toggleShift();
+                //        keyboard.clearAutos();
+                //        keyboard.word = "";
+                //    }
+                //    else
+                //    {
+                //        NativeMethods.KeyPress(keyboard.current.keyCode);
+                //    }
+                //}
                 //autocomplete 
                 else if(keyboard.current.type == QuadNode.Type.auto)
                 {
@@ -518,6 +534,7 @@ namespace TreeType
                     else NativeMethods.KeyPress(keyboard.current.keyCode);
                     keyboard.auto = false;
                 }
+                space = false;
                 keyboard.enter();
                 return true;
             }
