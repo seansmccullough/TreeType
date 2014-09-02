@@ -128,7 +128,7 @@ namespace TreeType
         {
             if(quadnode.type == QuadNode.Type.auto)
             {
-                if(quadnode.content.Length > 1)
+                if(quadnode.content != null)
                 {
                     if(shift)
                     {

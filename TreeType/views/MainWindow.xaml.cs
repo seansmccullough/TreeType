@@ -419,6 +419,7 @@ namespace TreeType
                 //period selected
                 else if(keyboard.current.content == ".")
                 {
+                    keyboard.auto = false;
                     if(autoSentenceEnd)
                     {
                         NativeMethods.KeyPress(keyboard.current.keyCode);
@@ -445,11 +446,9 @@ namespace TreeType
                     keyboard.autoCount = keyboard.current.content.Length - keyboard.word.Length;
                     keyboard.previousWord = keyboard.word;
                     keyboard.word += keyboard.current.content.Substring(keyboard.word.Length, keyboard.current.content.Length - keyboard.word.Length);
+                    
                     auto(keyboard.word);
 
-                    //keyboard.clearAuto();
-                    //keyboard.previousWord = keyboard.word;
-                    //keyboard.word = "";
                     if (keyboard.isShifted) keyboard.toggleShift();
                 }
                 //backspace
@@ -481,6 +480,7 @@ namespace TreeType
                             keyboard.clearAuto();
                         }
                     }
+                    if (keyboard.isShifted) keyboard.toggleShift();
                 }
                 else
                 {
