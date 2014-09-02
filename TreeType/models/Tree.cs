@@ -168,7 +168,7 @@ namespace TreeType
             }
             return true;
         }
-        public void clearAuto()
+        public void clearAutos()
         {
             foreach(QuadNode q in autoCompletes)
             {

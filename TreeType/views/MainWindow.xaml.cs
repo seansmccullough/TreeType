@@ -377,6 +377,9 @@ namespace TreeType
                 this.Canvas.Background = Constant.transparentColor;
                 this.Canvas.Background.Opacity = 0;
                 this.Canvas.Opacity = 0;
+                keyboard.clearAutos();
+                keyboard.word = "";
+                keyboard.auto = false;
                 toggleWindow.Show();
             }
             passThrough = !passThrough;
@@ -403,20 +406,20 @@ namespace TreeType
             //enter
             if (key == Keys.Enter)
             {
-                //shift selected
+                //shift 
                 if (keyboard.current.content == "shift")
                 {
                     keyboard.toggleShift();
                 }
-                //space selected
+                //space 
                 else if(keyboard.current.keyCode == 32)
                 {
                     keyboard.previousWord = keyboard.word;
                     keyboard.word = "";
-                    keyboard.clearAuto();
+                    keyboard.clearAutos();
                     NativeMethods.KeyPress(keyboard.current.keyCode);
                 }
-                //period selected
+                //period 
                 else if(keyboard.current.content == ".")
                 {
                     keyboard.auto = false;
@@ -426,7 +429,7 @@ namespace TreeType
                         NativeMethods.KeyPress(32);
                         NativeMethods.KeyPress(32);
                         if (!keyboard.isShifted) keyboard.toggleShift();
-                        keyboard.clearAuto();
+                        keyboard.clearAutos();
                         keyboard.word = "";
                     }
                     else
@@ -434,7 +437,7 @@ namespace TreeType
                         NativeMethods.KeyPress(keyboard.current.keyCode);
                     }
                 }
-                //autocomplete selected
+                //autocomplete 
                 else if(keyboard.current.type == QuadNode.Type.auto)
                 {
                     if (keyboard.current.content == "" || keyboard.current.content == "0") return true;
@@ -470,18 +473,20 @@ namespace TreeType
                     {
                         //backspace
                         NativeMethods.KeyPress(8);
-                        if(keyboard.word.Length > 1)
+                        if(keyboard.word.Length > 0)
                         {
                             keyboard.word = keyboard.word.Substring(0, keyboard.word.Length - 1);
-                            auto(keyboard.word);
+                            if (keyboard.word.Length > 0) auto(keyboard.word);
+                            else keyboard.clearAutos();
                         }
                         else
                         {
-                            keyboard.clearAuto();
+                            keyboard.clearAutos();
                         }
                     }
                     if (keyboard.isShifted) keyboard.toggleShift();
                 }
+                //all other characters
                 else
                 {
                     //actual letters
@@ -490,6 +495,11 @@ namespace TreeType
                         //update current word, get top suggestions, put suggestions in auto boxes.
                         keyboard.word += keyboard.current.content;
                         auto(keyboard.word);
+                    }
+                    //numbers and symbols
+                    else
+                    {
+                        keyboard.clearAutos();
                     }
                     if (keyboard.isShifted)
                     {
