@@ -373,6 +373,7 @@ namespace TreeType
                 this.Canvas.Opacity = 0.9;
                 toggleWindow.Hide();
                 //if(!keyboard.isShifted) keyboard.toggleShift();
+                stack.Clear();
             }
             //hide keyboard
             else
@@ -417,24 +418,33 @@ namespace TreeType
                 //space 
                 else if(keyboard.current.keyCode == 32)
                 {
-                    if(stack.Count > 0)
+                    if (autoSentenceEnd && (stack.Count > 2))
                     {
-                        if (autoSentenceEnd && (stack.Peek() == " "))
+                        string last = stack.Pop();
+                        string penultimate = stack.Pop();
+                        stack.Push(penultimate);
+                        stack.Push(last);
+                        if((last == " ") && (penultimate != "."))
                         {
                             NativeMethods.KeyPress(8);
                             NativeMethods.KeyPress(190);
+                            stack.Push(".");
                             NativeMethods.KeyPress(32);
                             NativeMethods.KeyPress(32);
+                            stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
+                            stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
                             keyboard.toggleShift();
                         }
                         else
                         {
                             NativeMethods.KeyPress(keyboard.current.keyCode);
+                            stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
                         }
                     }
                     else
                     {
                         NativeMethods.KeyPress(keyboard.current.keyCode);
+                        stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
                     }
                     keyboard.word = "";
                     keyboard.clearAutos();
