@@ -2,8 +2,8 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
-    <PublishUrlHistory />
-    <InstallUrlHistory />
+    <PublishUrlHistory>ftp://codesean.com/treetype/</PublishUrlHistory>
+    <InstallUrlHistory>http://www.codesean.com/treetype/</InstallUrlHistory>
     <SupportUrlHistory />
     <UpdateUrlHistory />
     <BootstrapperUrlHistory />
