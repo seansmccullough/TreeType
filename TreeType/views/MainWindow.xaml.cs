@@ -512,6 +512,7 @@ namespace TreeType
                         keyboard.clearAutos();
                         keyboard.word = "";
                     }
+                    //shift
                     if (keyboard.isShifted)
                     {
                         if (keyboard.current.shift == QuadNode.Shift.na || keyboard.current.shift == QuadNode.Shift.shift)
@@ -526,7 +527,18 @@ namespace TreeType
                         }
                         keyboard.toggleShift();
                     }
-                    else NativeMethods.KeyPress(keyboard.current.keyCode);
+                    //not shifted
+                    else
+                    {
+                        if(keyboard.current.shift == QuadNode.Shift.shift)
+                        {
+                            NativeMethods.KeyDown((char)16);
+                            NativeMethods.KeyPress(keyboard.current.keyCode);
+                            NativeMethods.KeyUp((char)16);
+                        }
+                        else NativeMethods.KeyPress(keyboard.current.keyCode);
+                    }
+                        
                 }
                 keyboard.enter();
                 return true;

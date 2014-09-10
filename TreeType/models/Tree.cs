@@ -103,7 +103,7 @@ namespace TreeType
                 if (snap.Equals("1")) newNode.snap = true;
                 else newNode.snap = false;
                 newNode.keyCode = Convert.ToByte(parameters[11]);
-                String shift = parameters[12];
+                String shift = parameters[12].TrimEnd('\r');
                 if (shift.Equals("na")) newNode.shift = QuadNode.Shift.na;
                 else if (shift.Equals("shift")) newNode.shift = QuadNode.Shift.shift;
                 else if (shift.Equals("noShift")) newNode.shift = QuadNode.Shift.noShift;
