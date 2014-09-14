@@ -36,7 +36,6 @@ namespace TreeType
         //toggle mouse/keyboard mode
         private bool mouse = true;
 
-        private bool autoSentenceEnd = true;
 
         private Stack<string> stack;
 
@@ -135,14 +134,6 @@ namespace TreeType
             NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_STYLE,
                 NativeMethods.GetWindowLong(hwnd, NativeMethods.GWL_STYLE) & ~NativeMethods.WS_SYSMENU);
 
-            /*Properties.Settings.Default.Sensitivity is the vertical % of the screen cursor must move
-              to trigger an edge event (left, right, up, down).  Note is it an int, so 1 represents 1% or 0.01
-             
-              Constant.threshold measures number of pixels cursor must move to trigger an edge event
-              Constant.threshold is not persistant*/
-            Constant.threshold = (int)((NativeMethods.GetSystemMetrics(NativeMethods.Y_SCREEN)
-                * Properties.Settings.Default.Sensitivity / 100));
-            autoSentenceEnd = Properties.Settings.Default.AutoSentenceEnd;
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -374,6 +365,14 @@ namespace TreeType
                 toggleWindow.Hide();
                 //if(!keyboard.isShifted) keyboard.toggleShift();
                 stack.Clear();
+                Constant.autoSentenceEnd = Properties.Settings.Default.AutoSentenceEnd;
+                /*Properties.Settings.Default.Sensitivity is the vertical % of the screen cursor must move
+              to trigger an edge event (left, right, up, down).  Note is it an int, so 1 represents 1% or 0.01
+             
+              Constant.threshold measures number of pixels cursor must move to trigger an edge event
+              Constant.threshold is not persistant*/
+                Constant.threshold = (int)((NativeMethods.GetSystemMetrics(NativeMethods.Y_SCREEN)
+                    * Properties.Settings.Default.Sensitivity / 100));
             }
             //hide keyboard
             else
@@ -418,7 +417,7 @@ namespace TreeType
                 //space 
                 else if(keyboard.current.keyCode == 32)
                 {
-                    if (autoSentenceEnd && (stack.Count > 2))
+                    if (Constant.autoSentenceEnd && (stack.Count > 2))
                     {
                         string last = stack.Pop();
                         string penultimate = stack.Pop();
