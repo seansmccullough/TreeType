@@ -423,7 +423,7 @@ namespace TreeType
                         string penultimate = stack.Pop();
                         stack.Push(penultimate);
                         stack.Push(last);
-                        if((last == " ") && (penultimate != "."))
+                        if ((last == " ") && (penultimate[penultimate.Length - 1] > 96) && (penultimate[penultimate.Length - 1] < 123))
                         {
                             NativeMethods.KeyPress(8);
                             NativeMethods.KeyPress(190);
