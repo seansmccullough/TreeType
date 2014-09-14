@@ -38,6 +38,7 @@ namespace TreeType
 
 
         private Stack<string> stack;
+        private Stack<string> tempStack;
 
         private Trie trie;
 
@@ -46,6 +47,7 @@ namespace TreeType
         public MainWindow()
         {
             stack = new Stack<string>();
+            tempStack = new Stack<string>();
             this.Loaded += startup;
             InitializeComponent();
             this.Closing += MainWindow_Closing;
@@ -477,13 +479,20 @@ namespace TreeType
                         }
                         else if(keyboard.word.Length == 0)
                         {
+                            tempStack.Clear();
                             temp = stack.Pop();
+                            tempStack.Push(temp);
                             while (stack.Count > 0 && temp != " ")
                             {
                                 keyboard.word = temp + keyboard.word;
                                 temp = stack.Pop();
+                                tempStack.Push(temp);
                             }
-                            stack.Push(temp);
+                            while(tempStack.Count > 0)
+                            {
+                                stack.Push(tempStack.Pop());
+                            }
+
                         }
                         auto(keyboard.word);
                     }
