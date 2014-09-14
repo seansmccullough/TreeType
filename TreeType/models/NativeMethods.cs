@@ -68,6 +68,18 @@ using System.Windows.Forms;
                 UIntPtr.Zero);
             return true;
         }
+        public static bool rightClick()
+        {
+            mouse_event(0x0008, 0, 0, 0, UIntPtr.Zero);
+            mouse_event(0x0010, 0, 0, 0, UIntPtr.Zero);
+            return true;
+        }
+        public static bool leftClick()
+        {
+            mouse_event(0x0002, 0, 0, 0, UIntPtr.Zero);
+            mouse_event(0x0004, 0, 0, 0, UIntPtr.Zero);
+            return true;
+        }
 
         public static void type(string s)
         {

@@ -36,6 +36,7 @@ namespace TreeType
         //toggle mouse/keyboard mode
         private bool mouse = true;
 
+        private long startRightHold = 0;
 
         private Stack<string> stack;
         private Stack<string> tempStack;
@@ -311,14 +312,19 @@ namespace TreeType
         {
             if (wParam == VirtualInput.NativeMethods.WM_RBUTTONDOWN)
             {
-                if(!ToggleWindow.settings)
-                {
-                    togglePassThough();
-                }
+                startRightHold = DateTime.Now.Ticks / 10000;
                 return true;
             }
             else if (wParam == VirtualInput.NativeMethods.WM_RBUTTONUP)
             {
+                if (!ToggleWindow.settings && (DateTime.Now.Ticks / 10000 - startRightHold > Constant.rightClickHoldTime))
+                {
+                    togglePassThough();
+                }
+                else if(passThrough)
+                {
+                    VirtualInput.NativeMethods.rightClick();
+                }
                 return true;
             }
             else if(!passThrough)
@@ -360,6 +366,7 @@ namespace TreeType
             //show keyboard
             if(passThrough)
             {
+                NativeMethods.leftClick();
                 Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
                 this.Canvas.Background = Constant.whiteColor;
                 this.Canvas.Background.Opacity = 0.1;
