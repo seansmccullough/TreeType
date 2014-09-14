@@ -317,7 +317,11 @@ namespace TreeType
             }
             else if (wParam == VirtualInput.NativeMethods.WM_RBUTTONUP)
             {
-                if (!ToggleWindow.settings && (DateTime.Now.Ticks / 10000 - startRightHold > Constant.rightClickHoldTime))
+                if(!ToggleWindow.settings && !passThrough)
+                {
+                    togglePassThough();
+                }
+                else if (!ToggleWindow.settings && (DateTime.Now.Ticks / 10000 - startRightHold > Constant.rightClickHoldTime))
                 {
                     togglePassThough();
                 }
@@ -372,7 +376,7 @@ namespace TreeType
                 this.Canvas.Background.Opacity = 0.1;
                 this.Canvas.Opacity = 0.9;
                 toggleWindow.Hide();
-                //if(!keyboard.isShifted) keyboard.toggleShift();
+                if(!keyboard.isShifted) keyboard.toggleShift();
                 stack.Clear();
                 Constant.autoSentenceEnd = Properties.Settings.Default.AutoSentenceEnd;
                 /*Properties.Settings.Default.Sensitivity is the vertical % of the screen cursor must move
