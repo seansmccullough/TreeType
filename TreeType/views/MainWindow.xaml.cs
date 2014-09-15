@@ -499,6 +499,7 @@ namespace TreeType
                                 temp = stack.Pop();
                                 tempStack.Push(temp);
                             }
+                            if (stack.Count == 0) keyboard.word = temp + keyboard.word;
                             while(tempStack.Count > 0)
                             {
                                 stack.Push(tempStack.Pop());
