@@ -17,3 +17,8 @@ How to use:
 Features:
 -Autocomplete to aid faster typing
 -Keyboard is minimized when toggled off, allowing the user to utilitize the entire screen.
+
+Download latest build:
+http://www.codesean.com/treetype/publish.htm
+
+Currently an unsigned application, so Window and your antivirus softare will tell you not to open.  This will be fixed in the future.
