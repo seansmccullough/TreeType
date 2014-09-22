@@ -33,6 +33,6 @@ namespace TreeType
         public const int silderMin = 6;
         public const int silderMax = 24;
         public static bool autoSentenceEnd = true;
-        public static int rightClickHoldTime = 250;
+        public static int rightClickHoldTime = 400;
     }
 }

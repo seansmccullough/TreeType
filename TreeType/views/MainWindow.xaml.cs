@@ -35,9 +35,11 @@ namespace TreeType
         //toggle mouse/keyboard mode
         private bool mouse = true;
 
-        private System.Windows.Forms.Timer timer;
-
         //private long startRightHold = 0;
+
+        private bool toggledOff = false;
+
+        private System.Windows.Threading.DispatcherTimer timer;
 
         private Stack<string> stack;
         private Stack<string> tempStack;
@@ -51,9 +53,9 @@ namespace TreeType
         
         public MainWindow()
         {
-            timer = new System.Windows.Forms.Timer();
-            timer.Tick += TimerEvent;
-            timer.Interval = 500;
+            timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 0, 0, Constant.rightClickHoldTime);
+            timer.Tick += new EventHandler(TimerEvent);
             stack = new Stack<string>();
             tempStack = new Stack<string>();
             this.Loaded += startup;
@@ -317,24 +319,25 @@ namespace TreeType
         }
         private void TimerEvent(Object o, EventArgs e)
         {
-            timer.Enabled = false;
+            timer.Stop();
             togglePassThough();
+            toggledOff = true;
         }
         public bool MouseHandler(VirtualInput.MSLLHOOKSTRUCT e, Int32 wParam)
         {
             if (wParam == VirtualInput.NativeMethods.WM_RBUTTONDOWN)
             {
-                if (timer.Enabled == false)
+                if (!timer.IsEnabled)
                 {
-                    timer.Enabled = true;
+                    timer.Start();
+                    toggledOff = false;
                 }
                 return true;
             }
             else if (wParam == VirtualInput.NativeMethods.WM_RBUTTONUP)
             {
-                    timer.Enabled = false;
-                    if (passThrough) NativeMethods.rightClick();
-                
+                timer.Stop();
+                if (passThrough && !toggledOff) NativeMethods.rightClick();
                 return true;
             }
             else if(!passThrough)
