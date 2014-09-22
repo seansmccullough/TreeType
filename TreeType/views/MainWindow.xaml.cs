@@ -32,11 +32,12 @@ namespace TreeType
         
         //if an edge has already been triggered
         //private bool edge = false;
-
         //toggle mouse/keyboard mode
         private bool mouse = true;
 
-        private long startRightHold = 0;
+        private System.Windows.Forms.Timer timer;
+
+        //private long startRightHold = 0;
 
         private Stack<string> stack;
         private Stack<string> tempStack;
@@ -50,6 +51,9 @@ namespace TreeType
         
         public MainWindow()
         {
+            timer = new System.Windows.Forms.Timer();
+            timer.Tick += TimerEvent;
+            timer.Interval = 500;
             stack = new Stack<string>();
             tempStack = new Stack<string>();
             this.Loaded += startup;
@@ -311,34 +315,32 @@ namespace TreeType
             Canvas.Children.Add(newLine);
             return newLine;
         }
+        private void TimerEvent(Object o, EventArgs e)
+        {
+            timer.Enabled = false;
+            togglePassThough();
+        }
         public bool MouseHandler(VirtualInput.MSLLHOOKSTRUCT e, Int32 wParam)
         {
             if (wParam == VirtualInput.NativeMethods.WM_RBUTTONDOWN)
             {
-                startRightHold = DateTime.Now.Ticks / 10000;
+                if (timer.Enabled == false)
+                {
+                    timer.Enabled = true;
+                }
                 return true;
             }
             else if (wParam == VirtualInput.NativeMethods.WM_RBUTTONUP)
             {
-                if(!ToggleWindow.settings && !passThrough)
-                {
-                    togglePassThough();
-                }
-                else if (!ToggleWindow.settings && (DateTime.Now.Ticks / 10000 - startRightHold > Constant.rightClickHoldTime))
-                {
-                    togglePassThough();
-                }
-                else if(passThrough)
-                {
-                    VirtualInput.NativeMethods.rightClick();
-                }
+                    timer.Enabled = false;
+                    if (passThrough) NativeMethods.rightClick();
+                
                 return true;
             }
             else if(!passThrough)
             {
                 if (wParam == VirtualInput.NativeMethods.WM_LBUTTONDOWN)
                 {
-                        
                     OnButtonKeyDown(Keys.Enter);
                 }
                 else if (e.pt.x < (TreeType.Constant.centerX - TreeType.Constant.threshold))
@@ -361,7 +363,6 @@ namespace TreeType
                 {
                     return false;
                 }
-
                 VirtualInput.NativeMethods.moveMouse(TreeType.Constant.centerX, TreeType.Constant.centerY);
                 return true;
             }
