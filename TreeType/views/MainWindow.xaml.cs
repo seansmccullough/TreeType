@@ -41,6 +41,9 @@ namespace TreeType
         private Stack<string> stack;
         private Stack<string> tempStack;
 
+        //if auto correct words should be capitalized
+        private bool capts = false;
+
         private Trie trie;
 
         public static ToggleWindow toggleWindow;
@@ -394,7 +397,7 @@ namespace TreeType
                 this.Canvas.Background = Constant.transparentColor;
                 this.Canvas.Background.Opacity = 0;
                 this.Canvas.Opacity = 0;
-                keyboard.clearAutos();
+                clearAutos();
                 keyboard.word = "";
                 toggleWindow.Show();
             }
@@ -402,20 +405,38 @@ namespace TreeType
         }
         private void auto(string s)
         {
+            //if first word being typed, or last character wasn't a letter
+            //if ((keyboard.isShifted && stack.Count == 0) || (keyboard.isShifted && stack.Count > 0 && stack.Peek()[stack.Peek().Length - 1] <= 97 && stack.Peek()[stack.Peek().Length - 1] >= 122))
+            if(keyboard.isShifted)
+            {
+                capts = true;
+            }
             String[] suggestions = trie.top(s, keyboard.autoCompletes.Count);
 
             for (int i = 0; i < suggestions.Length; i++)
             {
-                if(keyboard.isShifted)
+                if(suggestions[i] != null && suggestions[i] != "")
                 {
-                    keyboard.autoCompletes.ElementAt(i).content = Char.ToUpper(suggestions[i][0]) + suggestions[i].Substring(1);
+                    if (capts)
+                    {
+                        keyboard.autoCompletes.ElementAt(i).content = Char.ToUpper(suggestions[i][0]) + suggestions[i].Substring(1);
+                    }
+                    else
+                    {
+                        keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
+                    }
                 }
                 else
                 {
-                    keyboard.autoCompletes.ElementAt(i).content = suggestions[i];
+                    keyboard.autoCompletes.ElementAt(i).content = "";
                 }
                 keyboard.autoCompletes.ElementAt(i).visualNode.replace(keyboard.autoCompletes.ElementAt(i).content);
             }
+        }
+        private void clearAutos()
+        {
+            capts = false;
+            keyboard.clearAutos();
         }
         private bool OnButtonKeyDown(Keys key)
         {
@@ -459,7 +480,8 @@ namespace TreeType
                         stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
                     }
                     keyboard.word = "";
-                    keyboard.clearAutos();
+                    capts = false;
+                    clearAutos();
                     return true;
                 }
                 //autocomplete 
@@ -511,7 +533,7 @@ namespace TreeType
                     else
                     {
                         NativeMethods.KeyPress(8);
-                        keyboard.clearAutos();
+                        clearAutos();
                     }
                     if (keyboard.isShifted) keyboard.toggleShift();
                 }
@@ -529,7 +551,7 @@ namespace TreeType
                     //numbers and symbols
                     else
                     {
-                        keyboard.clearAutos();
+                        clearAutos();
                         keyboard.word = "";
                     }
                     //shift
