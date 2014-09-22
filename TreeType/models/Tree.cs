@@ -25,17 +25,8 @@ namespace TreeType
         private QuadNode m_current;
 
         public String word = "";
-        public String previousWord = "";
-        public char lastChar;
-
-        public int autoCount = 0;
-        public int previousAutoCount = 0;
 
         public List<QuadNode> autoCompletes {get; private set;}
-
-        //keeps track of if last typed string was an autocomplete.
-        public bool auto = false;
-
 
         public QuadNode current {
             get { return m_current; }
@@ -112,7 +103,7 @@ namespace TreeType
                 if (snap.Equals("1")) newNode.snap = true;
                 else newNode.snap = false;
                 newNode.keyCode = Convert.ToByte(parameters[11]);
-                String shift = parameters[12];
+                String shift = parameters[12].TrimEnd('\r');
                 if (shift.Equals("na")) newNode.shift = QuadNode.Shift.na;
                 else if (shift.Equals("shift")) newNode.shift = QuadNode.Shift.shift;
                 else if (shift.Equals("noShift")) newNode.shift = QuadNode.Shift.noShift;
@@ -169,7 +160,7 @@ namespace TreeType
             }
             return true;
         }
-        public void clearAuto()
+        public void clearAutos()
         {
             foreach(QuadNode q in autoCompletes)
             {
