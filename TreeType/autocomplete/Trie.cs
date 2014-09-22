@@ -58,29 +58,31 @@ namespace TreeType.autocomplete
         {
             var words = new String[num];
 
-            //number or symbol bullshit up in here
-            if((s[s.Length-1] < 97) || s[s.Length-1] > 122)
+            if((s.Length > 0) && (s[s.Length-1] >= 97) && (s[s.Length-1] <= 122))
             {
-                for(int i=0; i<words.Length; i++)
-                {
-                    words[i] = "";
-                }
-                return words;
-            }
-
-            else
-            {
-                if (s.Length == 1) current = root;
+                if(s.Length == 1) current = root;
                 var node = get(current, s, 0);
-                
-                var entries = node.topWords.OrderByDescending(entry => entry.Key).Take(num).ToArray();
-                for (int i = 0; i < entries.Length; i++)
+                try
                 {
-                    words[i] = entries.ElementAt(i).Value;
+                    var entries = node.topWords.OrderByDescending(entry => entry.Key).Take(num).ToArray();
+                    for (int i = 0; i < entries.Length; i++)
+                    {
+                        words[i] = entries.ElementAt(i).Value;
+                    }
+                    return words;
                 }
-                return words;
+                catch
+                {
+                    //move on
+                }
+         
             }
-
+            //number or symbol bullshit up in here
+            for (int i = 0; i < words.Length; i++)
+            {
+                words[i] = "";
+            }
+            return words;
         }
     }
 }
