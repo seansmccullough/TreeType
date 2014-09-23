@@ -12,7 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.ComponentModel;
 using VirtualInput;
+using TreeType.views;
 
 namespace TreeType
 {
@@ -21,37 +23,30 @@ namespace TreeType
     /// </summary>
     public partial class ToggleWindow : Window
     {
-        public static bool settings = false;
         public ToggleWindow()
         {
             InitializeComponent();
             this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth - System.Windows.SystemParameters.FullPrimaryScreenWidth / 4;
             this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
-            //this.Top = 100;
-            this.Loaded += startup;
+            this.Closing += closeListener;
         }
-
-        protected void startup(Object sender, RoutedEventArgs e)
-        {
-            var hwnd = new WindowInteropHelper(this).Handle;
-            NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_STYLE, 
-                NativeMethods.GetWindowLong(hwnd, NativeMethods.GWL_STYLE) & ~NativeMethods.WS_SYSMENU);
-        }
-
-        void exitListener(object sender, RoutedEventArgs e)
+        private void closeListener(object sender, CancelEventArgs e)
         {
             Application.Current.Shutdown();
         }
-        void settingsListener(object sender, RoutedEventArgs e)
+
+        private void helpListener(object sender, RoutedEventArgs e)
         {
-            if(!settings)
-            {
-                Window settingsWindow = new SettingsWindow();
-                settingsWindow.Show();
-                settings = true;
-                this.Hide();
-            }
-            
+            Window helpWindow = new HelpWindow();
+            helpWindow.Show();
+            this.Hide();
+        }
+
+        private void settingsListener(object sender, RoutedEventArgs e)
+        {
+            Window settingsWindow = new SettingsWindow();
+            settingsWindow.Show();
+            this.Hide();
         }
     }
 }

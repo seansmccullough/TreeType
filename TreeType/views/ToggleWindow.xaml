@@ -5,8 +5,8 @@
         ResizeMode="NoResize" WindowStartupLocation="Manual" ShowInTaskbar="False"
         ShowActivated="False">
     <Grid Margin="0,0,0,5">
-        <Button Content="Exit" HorizontalAlignment="Left" Margin="98.4,10,0,0" 
-                VerticalAlignment="Top" Width="82" Name="exit" Click="exitListener"/>
+        <Button Content="Help" HorizontalAlignment="Left" Margin="98.4,10,0,0" 
+                VerticalAlignment="Top" Width="82" Name="exit" Click="helpListener"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,36.96,0,0" TextWrapping="Wrap" Name="instructions"
                    Text="Hold the right mouse button to turn the keyboard on or off" VerticalAlignment="Top" Width="170.4"
                    TextAlignment="Center"/>

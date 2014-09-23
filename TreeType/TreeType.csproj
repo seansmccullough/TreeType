@@ -32,7 +32,7 @@
     <InstallUrl>http://www.codesean.com/treetype/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>0.9.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -102,6 +102,9 @@
     <Compile Include="models\Constant.cs" />
     <Compile Include="models\NativeMethods.cs" />
     <Compile Include="models\Settings.cs" />
+    <Compile Include="views\HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
     <Compile Include="models\QuadNode.cs" />
     <Compile Include="models\VirtualKeyboard.cs" />
     <Compile Include="models\VisualNode.cs" />
+    <Page Include="views\HelpWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

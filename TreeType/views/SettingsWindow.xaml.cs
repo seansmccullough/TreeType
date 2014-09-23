@@ -50,7 +50,6 @@ namespace TreeType
             Properties.Settings.Default.Sensitivity = (int)SensitivitySlider.Value;
             Properties.Settings.Default.AutoSentenceEnd = (bool)autoSentance.IsChecked;
             Properties.Settings.Default.Save();
-            ToggleWindow.settings = false;
             MainWindow.toggleWindow.Show();
             this.Close();
         }
