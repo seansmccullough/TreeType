@@ -99,6 +99,7 @@
     </ApplicationDefinition>
     <Compile Include="autocomplete\Trie.cs" />
     <Compile Include="autocomplete\TrieNode.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="models\Constant.cs" />
     <Compile Include="models\NativeMethods.cs" />
     <Compile Include="models\Settings.cs" />

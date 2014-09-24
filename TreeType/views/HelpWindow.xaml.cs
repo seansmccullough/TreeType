@@ -27,7 +27,9 @@ namespace TreeType.views
             this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth - System.Windows.SystemParameters.FullPrimaryScreenWidth / 3;
             this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
             this.Loaded += startup;
-            versionText.Text = "TreeType Copywrite 2014 Sean McCullough";
+            Version version = Helper.GetPublishedVersion();
+
+            versionText.Text = "TreeType "+version.Major+"."+version.Minor+"."+version.Build+"."+version.Revision+"\nCopywrite 2014 Sean McCullough";
         }
 
         protected void startup(Object sender, RoutedEventArgs e)
