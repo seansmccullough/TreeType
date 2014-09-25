@@ -61,35 +61,9 @@ namespace TreeType
             this.Loaded += startup;
             InitializeComponent();
             this.Closing += MainWindow_Closing;
-            if(System.Windows.SystemParameters.FullPrimaryScreenWidth > 1400)
-            {
-                this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.8 - this.Width / 2;
-                Constant.centerX = Convert.ToInt32(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.8);
-            }
-            else if (System.Windows.SystemParameters.FullPrimaryScreenWidth < 1400 
-                && System.Windows.SystemParameters.FullPrimaryScreenWidth > 1000)
-            {
-                this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.7 - this.Width / 2;
-                Constant.centerX = Convert.ToInt32(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.7);
-            }
-            else
-            {
-                this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.63 - this.Width / 2;
-                Constant.centerX = Convert.ToInt32(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.63);
-            }
-            if (System.Windows.SystemParameters.FullPrimaryScreenHeight < 600)
-            {
-                this.Top = 1;
-            }
-            else if (System.Windows.SystemParameters.FullPrimaryScreenHeight > 600
-                && System.Windows.SystemParameters.FullPrimaryScreenHeight < 1000)
-            {
-                this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 6;
-            }
-            else
-            {
-                this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
-            }
+            this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.75 - this.Width * 0.5;
+            this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.55 - this.Width * 0.5;
+            
             try
             {
                 trie = new Trie(TreeType.Properties.Resources.words10k);

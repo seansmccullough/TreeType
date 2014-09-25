@@ -26,8 +26,8 @@ namespace TreeType
         public ToggleWindow()
         {
             InitializeComponent();
-            this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth - System.Windows.SystemParameters.FullPrimaryScreenWidth / 4;
-            this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
+            this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.75;
+            this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.25;
             this.Closing += closeListener;
         }
         private void closeListener(object sender, CancelEventArgs e)
