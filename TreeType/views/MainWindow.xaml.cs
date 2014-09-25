@@ -63,7 +63,7 @@ namespace TreeType
             this.Closing += MainWindow_Closing;
             this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.75 - this.Width * 0.5;
             this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.55 - this.Width * 0.5;
-            
+            this.Cursor = System.Windows.Input.Cursors.None;
             try
             {
                 trie = new Trie(TreeType.Properties.Resources.words10k);
@@ -76,6 +76,7 @@ namespace TreeType
             keyboard = new Tree();
             toggleWindow = new ToggleWindow();
             toggleWindow.Show();
+            this.Hide();
             try
             {
                 keyboard.loadFromFile(TreeType.Properties.Resources.mainTreeKeyboard);
@@ -90,7 +91,6 @@ namespace TreeType
             {
                 try
                 {
-                    //VirtualInput.NativeMethods.moveMouse(TreeType.Constant.centerX, TreeType.Constant.centerY);
                     VirtualInput.VirtualKeyboard.StartMouseInterceptor();
                     VirtualInput.VirtualKeyboard.mouseEventHandler += new VirtualInput.MouseEvent(MouseHandler);
                 }
@@ -352,10 +352,7 @@ namespace TreeType
             if(passThrough)
             {
                 NativeMethods.leftClick();
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
-                this.Canvas.Background = Constant.whiteColor;
-                this.Canvas.Background.Opacity = 0.1;
-                this.Canvas.Opacity = 0.9;
+                this.Show();
                 toggleWindow.Hide();
                 if(!keyboard.isShifted) keyboard.toggleShift();
                 stack.Clear();
@@ -371,13 +368,10 @@ namespace TreeType
             //hide keyboard
             else
             {
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-                this.Canvas.Background = Constant.transparentColor;
-                this.Canvas.Background.Opacity = 0;
-                this.Canvas.Opacity = 0;
                 clearAutos();
                 keyboard.word = "";
                 toggleWindow.Show();
+                this.Hide();
             }
             passThrough = !passThrough;
         }

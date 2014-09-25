@@ -27,8 +27,8 @@ namespace TreeType
         public static int defaultLineLength = 22;
         public static int defaultLineOffset = 7;
         public static int lineWidth = 1;
-        public static int centerX = (int)(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.9);
-        public static int centerY = (int)(System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.5);
+        public static int centerX = (int)(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.75);
+        public static int centerY = (int)(System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.55);
         public static int threshold = 75;
         public const int silderMin = 6;
         public const int silderMax = 24;
