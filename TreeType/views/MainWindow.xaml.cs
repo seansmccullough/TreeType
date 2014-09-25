@@ -27,6 +27,11 @@ namespace TreeType
         //private Dictionary<QuadNode, VisualNode> dictionary;
         private Tree keyboard;
 
+        private double dpiX;
+        private double dpiY;
+        private int centerX;
+        private int centerY;
+
         //toggle pass through/intercept mode
         private bool passThrough = true;
         
@@ -61,6 +66,7 @@ namespace TreeType
             this.Loaded += startup;
             InitializeComponent();
             this.Closing += MainWindow_Closing;
+            
             this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.75 - this.Width * 0.5;
             this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.55 - this.Width * 0.5;
             this.Cursor = System.Windows.Input.Cursors.None;
@@ -119,7 +125,11 @@ namespace TreeType
             var hwnd = new WindowInteropHelper(this).Handle;
             NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_STYLE,
                 NativeMethods.GetWindowLong(hwnd, NativeMethods.GWL_STYLE) & ~NativeMethods.WS_SYSMENU);
-
+            PresentationSource source = PresentationSource.FromVisual(this);
+            dpiX = source.CompositionTarget.TransformToDevice.M11;
+            dpiY = source.CompositionTarget.TransformToDevice.M22;
+            centerX = (int)(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.75 * dpiX);
+            centerY = (int)(System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.55 * dpiY);
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -320,19 +330,19 @@ namespace TreeType
                 {
                     OnButtonKeyDown(Keys.Enter);
                 }
-                else if (e.pt.x < (TreeType.Constant.centerX - TreeType.Constant.threshold))
+                else if (e.pt.x < (centerX - TreeType.Constant.threshold))
                 {
                     keyboard.left();
                 }
-                else if (e.pt.x > (TreeType.Constant.centerX + TreeType.Constant.threshold))
+                else if (e.pt.x > (centerX + TreeType.Constant.threshold))
                 {
                     keyboard.right();
                 }
-                else if (e.pt.y < (TreeType.Constant.centerY - TreeType.Constant.threshold))
+                else if (e.pt.y < (centerY - TreeType.Constant.threshold))
                 {
                     keyboard.up();
                 }
-                else if (e.pt.y > (TreeType.Constant.centerY + TreeType.Constant.threshold))
+                else if (e.pt.y > (centerY + TreeType.Constant.threshold))
                 {
                     keyboard.down();        
                 }
@@ -340,7 +350,7 @@ namespace TreeType
                 {
                     return false;
                 }
-                VirtualInput.NativeMethods.moveMouse(TreeType.Constant.centerX, TreeType.Constant.centerY);
+                VirtualInput.NativeMethods.moveMouse(centerX, centerY);
                 return true;
             }
             return false;

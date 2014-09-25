@@ -4,7 +4,7 @@
         Title="Tree Type" Height="625" Width="700" WindowStartupLocation="Manual" Topmost="True" 
         ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None" Left="20" Top="200" ShowActivated="False">
     <Window.Background>
-        <SolidColorBrush Color="Transparent"/>
+        <SolidColorBrush Color="White" Opacity="0.01"/>
     </Window.Background>
     <Grid>
         <Canvas HorizontalAlignment="Center" Height="600" Width="620" Margin="-25,0,0,0" 
