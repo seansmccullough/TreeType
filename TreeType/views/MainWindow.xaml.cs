@@ -453,6 +453,7 @@ namespace TreeType
                         string penultimate = stack.Pop();
                         stack.Push(penultimate);
                         stack.Push(last);
+                        //inserts period, 2 spaces, and toggles caps if last character was space, and char before that was a letter
                         if ((last == " ") && (penultimate[penultimate.Length - 1] > 96) && (penultimate[penultimate.Length - 1] < 123))
                         {
                             NativeMethods.KeyPress(8);
@@ -464,6 +465,14 @@ namespace TreeType
                             stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
                             keyboard.toggleShift();
                         }
+                        //handles ! and ?.  Inserts another space, then toggles caps.
+                        else if((last == " ") && ((penultimate[penultimate.Length - 1] == 63) || (penultimate[penultimate.Length - 1] == 33)))
+                        {
+                            stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
+                            NativeMethods.KeyPress(32);
+                            keyboard.toggleShift();
+                        }
+                        //just regular space
                         else
                         {
                             NativeMethods.KeyPress(keyboard.current.keyCode);
@@ -541,7 +550,7 @@ namespace TreeType
                 //all other characters
                 else
                 {
-                    stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
+                    stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.content))));
                     //actual letters
                     if (keyboard.current.type == QuadNode.Type.letter)
                     {
