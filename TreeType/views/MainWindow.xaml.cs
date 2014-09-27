@@ -514,6 +514,11 @@ namespace TreeType
                     }
                     else
                     {
+                        if (stack.Count == 1)
+                        {
+                            keyboard.word = "";
+                            stack.Pop();
+                        }
                         NativeMethods.KeyPress(8);
                         clearAutos();
                     }
