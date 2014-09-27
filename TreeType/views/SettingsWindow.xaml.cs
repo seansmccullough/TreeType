@@ -26,8 +26,8 @@ namespace TreeType
         public SettingsWindow()
         {
             InitializeComponent();
-            this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth - System.Windows.SystemParameters.FullPrimaryScreenWidth / 3;
-            this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
+            this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.67;
+            this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.25;
             this.Loaded += startup;
             SensitivitySlider.Minimum = Constant.silderMin;
             SensitivitySlider.Maximum = Constant.silderMax;
@@ -50,7 +50,6 @@ namespace TreeType
             Properties.Settings.Default.Sensitivity = (int)SensitivitySlider.Value;
             Properties.Settings.Default.AutoSentenceEnd = (bool)autoSentance.IsChecked;
             Properties.Settings.Default.Save();
-            ToggleWindow.settings = false;
             MainWindow.toggleWindow.Show();
             this.Close();
         }

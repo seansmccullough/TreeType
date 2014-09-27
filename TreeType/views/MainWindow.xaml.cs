@@ -24,35 +24,42 @@ namespace TreeType
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private Dictionary<QuadNode, VisualNode> dictionary;
         private Tree keyboard;
+
+        //for screen DPI and main window center location
+        private double dpiX;
+        private double dpiY;
+        private int centerX;
+        private int centerY;
 
         //toggle pass through/intercept mode
         private bool passThrough = true;
         
-        //if an edge has already been triggered
-        //private bool edge = false;
         //toggle mouse/keyboard mode
         private bool mouse = true;
 
-        //private long startRightHold = 0;
-
         private bool toggledOff = false;
 
+        //for timing right clicks to toggle keyboard on/off
         private System.Windows.Threading.DispatcherTimer timer;
 
+        //stores previously typed strings
         private Stack<string> stack;
+
+        //used to maintain stack when backspacing
         private Stack<string> tempStack;
 
         //if auto correct words should be capitalized
         private bool capts = false;
 
+        //for autocorrect
         private Trie trie;
 
         public static ToggleWindow toggleWindow;
         
         public MainWindow()
         {
+            //set up but don't start timer
             timer = new System.Windows.Threading.DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, Constant.rightClickHoldTime);
             timer.Tick += new EventHandler(TimerEvent);
@@ -61,35 +68,13 @@ namespace TreeType
             this.Loaded += startup;
             InitializeComponent();
             this.Closing += MainWindow_Closing;
-            if(System.Windows.SystemParameters.FullPrimaryScreenWidth > 1400)
-            {
-                this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.8 - this.Width / 2;
-                Constant.centerX = Convert.ToInt32(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.8);
-            }
-            else if (System.Windows.SystemParameters.FullPrimaryScreenWidth < 1400 
-                && System.Windows.SystemParameters.FullPrimaryScreenWidth > 1000)
-            {
-                this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.7 - this.Width / 2;
-                Constant.centerX = Convert.ToInt32(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.7);
-            }
-            else
-            {
-                this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.63 - this.Width / 2;
-                Constant.centerX = Convert.ToInt32(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.63);
-            }
-            if (System.Windows.SystemParameters.FullPrimaryScreenHeight < 600)
-            {
-                this.Top = 1;
-            }
-            else if (System.Windows.SystemParameters.FullPrimaryScreenHeight > 600
-                && System.Windows.SystemParameters.FullPrimaryScreenHeight < 1000)
-            {
-                this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 6;
-            }
-            else
-            {
-                this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight / 4;
-            }
+            
+            //position main window
+            this.Left = System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.75 - this.Width * 0.5;
+            this.Top = System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.55 - this.Width * 0.5;
+            this.Cursor = System.Windows.Input.Cursors.None;
+            
+            //load trie
             try
             {
                 trie = new Trie(TreeType.Properties.Resources.words10k);
@@ -102,6 +87,9 @@ namespace TreeType
             keyboard = new Tree();
             toggleWindow = new ToggleWindow();
             toggleWindow.Show();
+            this.Hide();
+            
+            //load keyboard
             try
             {
                 keyboard.loadFromFile(TreeType.Properties.Resources.mainTreeKeyboard);
@@ -112,11 +100,12 @@ namespace TreeType
                 this.Close();
             }
             renderKeyboard(false);
+
+            //begin mouse interceptor
             if (mouse)
             {
                 try
                 {
-                    //VirtualInput.NativeMethods.moveMouse(TreeType.Constant.centerX, TreeType.Constant.centerY);
                     VirtualInput.VirtualKeyboard.StartMouseInterceptor();
                     VirtualInput.VirtualKeyboard.mouseEventHandler += new VirtualInput.MouseEvent(MouseHandler);
                 }
@@ -146,6 +135,12 @@ namespace TreeType
             NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_STYLE,
                 NativeMethods.GetWindowLong(hwnd, NativeMethods.GWL_STYLE) & ~NativeMethods.WS_SYSMENU);
 
+            //gets screen DPI.  Might be a bug here for monitors not on native resolution
+            PresentationSource source = PresentationSource.FromVisual(this);
+            dpiX = source.CompositionTarget.TransformToDevice.M11;
+            dpiY = source.CompositionTarget.TransformToDevice.M22;
+            centerX = (int)(System.Windows.SystemParameters.FullPrimaryScreenWidth * 0.75 * dpiX);
+            centerY = (int)(System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.55 * dpiY);
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -155,6 +150,7 @@ namespace TreeType
 
         private void renderKeyboard(Boolean grid)
         {
+            //to be implemented.  For grid instead of tree-based keyboards
             if(grid)
             {
 
@@ -171,7 +167,6 @@ namespace TreeType
                     Canvas);
 
                 root.toggleSelected();
-                //dictionary.Add(keyboard.Root, Root);
                 keyboard.root.visualNode = root;
 
                 drawChildren(
@@ -317,6 +312,8 @@ namespace TreeType
             Canvas.Children.Add(newLine);
             return newLine;
         }
+
+        //toggles keyboard if right click held long enough
         private void TimerEvent(Object o, EventArgs e)
         {
             timer.Stop();
@@ -346,19 +343,19 @@ namespace TreeType
                 {
                     OnButtonKeyDown(Keys.Enter);
                 }
-                else if (e.pt.x < (TreeType.Constant.centerX - TreeType.Constant.threshold))
+                else if (e.pt.x < (centerX - TreeType.Constant.threshold))
                 {
                     keyboard.left();
                 }
-                else if (e.pt.x > (TreeType.Constant.centerX + TreeType.Constant.threshold))
+                else if (e.pt.x > (centerX + TreeType.Constant.threshold))
                 {
                     keyboard.right();
                 }
-                else if (e.pt.y < (TreeType.Constant.centerY - TreeType.Constant.threshold))
+                else if (e.pt.y < (centerY - TreeType.Constant.threshold))
                 {
                     keyboard.up();
                 }
-                else if (e.pt.y > (TreeType.Constant.centerY + TreeType.Constant.threshold))
+                else if (e.pt.y > (centerY + TreeType.Constant.threshold))
                 {
                     keyboard.down();        
                 }
@@ -366,7 +363,7 @@ namespace TreeType
                 {
                     return false;
                 }
-                VirtualInput.NativeMethods.moveMouse(TreeType.Constant.centerX, TreeType.Constant.centerY);
+                VirtualInput.NativeMethods.moveMouse(centerX, centerY);
                 return true;
             }
             return false;
@@ -377,11 +374,9 @@ namespace TreeType
             //show keyboard
             if(passThrough)
             {
-                NativeMethods.leftClick();
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.None;
-                this.Canvas.Background = Constant.whiteColor;
-                this.Canvas.Background.Opacity = 0.1;
-                this.Canvas.Opacity = 0.9;
+                //press escape to close right click menu, if open
+                NativeMethods.KeyPress(0x1B);
+                this.Show();
                 toggleWindow.Hide();
                 if(!keyboard.isShifted) keyboard.toggleShift();
                 stack.Clear();
@@ -397,24 +392,21 @@ namespace TreeType
             //hide keyboard
             else
             {
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-                this.Canvas.Background = Constant.transparentColor;
-                this.Canvas.Background.Opacity = 0;
-                this.Canvas.Opacity = 0;
                 clearAutos();
                 keyboard.word = "";
                 toggleWindow.Show();
+                this.Hide();
             }
             passThrough = !passThrough;
         }
         private void auto(string s)
         {
-            //if first word being typed, or last character wasn't a letter
-            //if ((keyboard.isShifted && stack.Count == 0) || (keyboard.isShifted && stack.Count > 0 && stack.Peek()[stack.Peek().Length - 1] <= 97 && stack.Peek()[stack.Peek().Length - 1] >= 122))
             if(keyboard.isShifted)
             {
                 capts = true;
             }
+
+            //get suggestions from trie
             String[] suggestions = trie.top(s, keyboard.autoCompletes.Count);
 
             for (int i = 0; i < suggestions.Length; i++)
@@ -461,6 +453,7 @@ namespace TreeType
                         string penultimate = stack.Pop();
                         stack.Push(penultimate);
                         stack.Push(last);
+                        //inserts period, 2 spaces, and toggles caps if last character was space, and char before that was a letter
                         if ((last == " ") && (penultimate[penultimate.Length - 1] > 96) && (penultimate[penultimate.Length - 1] < 123))
                         {
                             NativeMethods.KeyPress(8);
@@ -472,6 +465,14 @@ namespace TreeType
                             stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
                             keyboard.toggleShift();
                         }
+                        //handles ! and ?.  Inserts another space, then toggles caps.
+                        else if((last == " ") && ((penultimate[penultimate.Length - 1] == 63) || (penultimate[penultimate.Length - 1] == 33)))
+                        {
+                            stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
+                            NativeMethods.KeyPress(32);
+                            keyboard.toggleShift();
+                        }
+                        //just regular space
                         else
                         {
                             NativeMethods.KeyPress(keyboard.current.keyCode);
@@ -536,6 +537,11 @@ namespace TreeType
                     }
                     else
                     {
+                        if (stack.Count == 1)
+                        {
+                            keyboard.word = "";
+                            stack.Pop();
+                        }
                         NativeMethods.KeyPress(8);
                         clearAutos();
                     }
@@ -544,7 +550,7 @@ namespace TreeType
                 //all other characters
                 else
                 {
-                    stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.keyCode))));
+                    stack.Push(Convert.ToString(Char.ToLower(Convert.ToChar(keyboard.current.content))));
                     //actual letters
                     if (keyboard.current.type == QuadNode.Type.letter)
                     {

@@ -1,0 +1,32 @@
+﻿<Window x:Class="TreeType.views.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Help" Height="265.603" Width="300">
+    <Grid>
+        <TextBlock Name="versionText" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" 
+                   Text="TextBlock" VerticalAlignment="Top" Width="264.069" Height="35.836"/>
+        <RichTextBox HorizontalAlignment="Left" Height="135.519" Margin="10,50.836,0,0" VerticalAlignment="Top" Width="264.069" IsReadOnly="True">
+            <FlowDocument>
+                <List>
+                    <ListItem>
+                        <Paragraph>Hold right click to toggle the keyboard on/off</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Move cursor to to select designed key.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Movements between keys not directly connected by a line is not allowed</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Left click to type designed key</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Mouse sensitively can be change be changed on the setting screen.</Paragraph>
+                    </ListItem>
+                </List>
+            </FlowDocument>
+        </RichTextBox>
+        <Button Content="Ok" Name="okButton" HorizontalAlignment="Left" Margin="199.069,191.355,0,0" 
+                VerticalAlignment="Top" Width="75" Click="okListener" RenderTransformOrigin="0.616,1.991"/>
+    </Grid>
+</Window>
