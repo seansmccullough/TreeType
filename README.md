@@ -1,7 +1,7 @@
 TreeType
 ========
 
-![alt tag](https://github.com/seansmccullough/TreeType/master/TreeType.png)
+![alt tag](https://github.com/seansmccullough/TreeType/blob/master/TreeType.png)
 
 A Better onscreen keyboard for Windows.
 
