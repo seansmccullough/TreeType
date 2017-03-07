@@ -1,6 +1,8 @@
 TreeType
 ========
 
+![alt tag](https://github.com/seansmccullough/TreeType/master/TreeType.png)
+
 A Better onscreen keyboard for Windows.
 
 TreeType is an onscreen keyboard for Windows 7, 8, and 8.1, compatible with screens resolutions of 1024x768 and larger.
@@ -22,8 +24,5 @@ Features:
 -Autocomplete to aid faster typing
 
 -Keyboard is minimized when toggled off, allowing the user to utilitize the entire screen.
-
-Download latest build:
-http://www.codesean.com/treetype/publish.htm
 
 Currently an unsigned application, so Window and your antivirus softare will tell you not to open.  This will be fixed in the future.
